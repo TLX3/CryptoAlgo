@@ -1,24 +1,24 @@
 // Sidebar Routers
 export const menus = {
-	'General': [
+	'message.general': [
 		{
 			action: 'zmdi-view-dashboard',
-			title: 'Dashboard',
+			title: 'message.dashboard',
 			active: true,
 			items: [
-				{ action: 'zmdi-time-restore', title: 'Trade History', path: '/dashboard/tradeHistory', exact: true },
-				{ action: 'zmdi-trending-up', title: 'Stats', path: '/dashboard/stats', exact: true },
-				{ action: 'zmdi-chart', title: 'Charts', path: '/dashboard/web-analytics', exact: true },
-				{ action: 'zmdi-check-all', title: 'Backtesting', path: '/dashboard/backtesting', exact: true },
-				{ action: 'zmdi-store', title: 'Marketplace', path: '/dashboard/marketplace', exact: true },
-				{ action: 'zmdi-settings', title: 'Config', path: '/dashboard/wizard', exact: true }
+				{ action: 'zmdi-time-restore', title: 'message.tradehistory', path: '/dashboard/tradeHistory', exact: true },
+				{ action: 'zmdi-trending-up', title: 'message.stats', path: '/dashboard/stats', exact: true },
+				{ action: 'zmdi-chart', title: 'message.charts', path: '/dashboard/web-analytics', exact: true },
+				{ action: 'zmdi-check-all', title: 'message.backtesting', path: '/dashboard/backtesting', exact: true },
+				{ action: 'zmdi-store', title: 'message.marketplace', path: '/dashboard/marketplace', exact: true },
+				{ action: 'zmdi-settings', title: 'message.config', path: '/dashboard/wizard', exact: true }
 			]
 		}
 	],
-	'Support': [
+	'message.support': [
 		{
 			action: 'zmdi-book',
-			title: 'Documentation',
+			title: 'message.documentation',
 			active: false,
 			items: null,
 			path: '/documentation'

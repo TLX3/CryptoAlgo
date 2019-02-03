@@ -151,14 +151,14 @@ const mutations = {
     logoutUser(state) {
         state.user = null
         localStorage.removeItem('user');
-        router.push("/session/login");
+        router.push("/login");
     },
     signUpUser(state) {
         Nprogress.start();
     },
     signUpUserSuccess(state, user) {
         state.user = localStorage.setItem('user', user);
-        router.push("/default/dashboard/ecommerce");
+        router.push("/dashboard/tradeHistory");
         Vue.notify({
             group: 'loggedIn',
             type: 'success',

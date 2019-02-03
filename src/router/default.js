@@ -23,7 +23,7 @@ export default {
          component: TradeHistory,
          meta: {
             requiresAuth: true,
-            title: 'Trade History',
+            title: 'message.tradehistory',
             breadcrumb: 'Trade History'
          }
       },
@@ -32,7 +32,7 @@ export default {
          component: WebAnalytics,
          meta: {
             requiresAuth: true,
-            title: 'Charts',
+            title: 'message.charts',
          }
       },
       {
@@ -40,7 +40,7 @@ export default {
         component: Stats,
         meta: {
            requiresAuth: true,
-           title: 'Stats',
+           title: 'message.stats',
            breadcrumb: 'Stats'
         }
      },
@@ -49,7 +49,7 @@ export default {
         component: Backtesting,
         meta: {
            requiresAuth: true,
-           title: 'Backtesting',
+           title: 'message.backtesting',
            breadcrumb: 'Backtesting'
         }
      },
@@ -58,7 +58,7 @@ export default {
         component: Marketplace,
         meta: {
            requiresAuth: true,
-           title: 'Marketplace',
+           title: 'message.marketplace',
            breadcrumb: 'Marketplace'
         }
      },
@@ -67,7 +67,7 @@ export default {
       component: Wizard,
       meta: {
          requiresAuth: true,
-         title: 'Config',
+         title: 'message.config',
          breadcrumb: 'Config'
       }
     },

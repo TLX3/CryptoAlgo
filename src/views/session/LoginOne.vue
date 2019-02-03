@@ -18,7 +18,6 @@
                   <v-btn
                     icon
                     large
-                    :href="source"
                     target="_blank"
                     slot="activator"
                   >
@@ -54,7 +53,7 @@
 							<v-btn large @click="onCreateAccount" block color="warning">{{$t('message.createAccount')}}</v-btn>
 						</div>
 						<p>{{$t('message.bySigningUpYouAgreeTo')}} {{brand}}</p>
-						<router-link class="mb-1" to="/session/forgot-password">{{$t('message.forgotPassword')}}?</router-link>
+						<router-link class="mb-1" to="/forgot-password">{{$t('message.forgotPassword')}}?</router-link>
 						<v-spacer />
 						<router-link to="">{{$t('message.termsOfService')}}</router-link>
 					</v-form>
@@ -138,7 +137,7 @@ export default {
       this.$store.dispatch("signinUserWithGithub");
     },
     onCreateAccount() {
-      this.$router.push("/session/sign-up");
+      this.$router.push("/sign-up");
     }
   }
 };

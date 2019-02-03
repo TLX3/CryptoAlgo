@@ -1,6 +1,15 @@
 //messages.js
 export default {
   general: 'General',
+  support: 'Support',
+  tradehistory: 'Trade History',
+  stats: 'Stats',
+  charts: 'Charts',
+  backtesting: 'Backtesting',
+  marketplace: 'Marketplace',
+  config: 'Config',
+  support: 'Support',
+  documentation: 'Documentation',
   overview: 'Overview',
   customizer: 'Customizer',
   applications: 'Applications',

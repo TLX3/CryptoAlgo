@@ -1,6 +1,15 @@
 //messages.js
 export default {
   general: '一般',
+  support: 'Support',
+  tradehistory: 'Trade History',
+  stats: 'Stats',
+  charts: 'Charts',
+  backtesting: 'Backtesting',
+  marketplace: 'Marketplace',
+  config: 'Config',
+  support: 'Support',
+  documentation: 'Documentation',
   overview: '概观',
   customizer: '定制',
   applications: '应用',

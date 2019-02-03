@@ -18,10 +18,10 @@
 							:rules="emailRules" 
 							required
 						></v-text-field>						
-						<v-btn color="primary" block @click="" to="/session/reset-password"	>Send Email</v-btn>
+						<v-btn color="primary" block @click="" to="/reset-password"	>Send Email</v-btn>
 					</v-form>
 					<div>
-						<router-link to="/session/login">{{$t('message.backToSignIn')}}</router-link>
+						<router-link to="/login">{{$t('message.backToSignIn')}}</router-link>
 					</div>
 				</div>
 			</div>

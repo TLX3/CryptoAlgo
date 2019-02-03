@@ -18,7 +18,6 @@
                   <v-btn
                     icon
                     large
-                    :href="source"
                     target="_blank"
                     slot="activator"
                   >
@@ -51,7 +50,7 @@
 						></v-text-field>
 						<v-btn large @click="submit" block color="primary" class="mb-3">{{$t('message.signUp')}}</v-btn>
 						<p class="fs-14">{{$t('message.havingAnAccount')}}
-							<router-link to="/session/login">{{$t('message.login')}}</router-link>
+							<router-link to="/login">{{$t('message.login')}}</router-link>
 						</p>
 						<p>{{$t('message.bySigningUpYouAgreeTo')}} {{brand}}</p>
 						<router-link to="">{{$t('message.termsOfService')}}</router-link>
