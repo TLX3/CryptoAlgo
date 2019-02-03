@@ -2,19 +2,12 @@
  * Auth Module
  */
 import Vue from 'vue'
-import firebase from 'firebase';
 import Nprogress from 'nprogress';
+import axios from 'axios'
 import router from '../../../router';
-import {
-    facebookAuthProvider,
-    googleAuthProvider,
-    twitterAuthProvider,
-    githubAuthProvider
-} from '../../../firebase';
 
 const state = {
     user: localStorage.getItem('user'),
-    isUserSigninWithAuth0: Boolean(localStorage.getItem('isUserSigninWithAuth0'))
 }
 
 // getters
@@ -22,17 +15,19 @@ const getters = {
     getUser: state => {
         return state.user;
     },
-    isUserSigninWithAuth0: state => {
-        return state.isUserSigninWithAuth0;
+    getUID: state => {
+        return state.user.uid;
+    },
+    getUserInfo: state => {
+        return state.user.info
     }
 }
 
 // actions
 const actions = {
-    signinUserInFirebase(context, payload) {
-        const { user } = payload;
+    signIn(context, payload) {
         context.commit('loginUser');
-        firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+        axios.post('/login', payload)
             .then(user => {
                 Nprogress.done();
                 setTimeout(() => {
@@ -43,67 +38,16 @@ const actions = {
                 context.commit('loginUserFailure', error);
             });
     },
-    logoutUserFromFirebase(context) {
-        Nprogress.start();
-        firebase.auth().signOut()
-            .then(() => {
-                Nprogress.done();
-                setTimeout(() => {
-                    context.commit('logoutUser');
-                }, 500)
-            })
-            .catch(error => {
-                context.commit('loginUserFailure', error);
-            })
+    logOut(context) {
+        // clear token and refresh
+        setTimeout(() => {
+            context.commit('logoutUser');
+        }, 500)
     },
-    signinUserWithFacebook(context) {
-        context.commit('loginUser');
-        firebase.auth().signInWithPopup(facebookAuthProvider).then((result) => {
-            Nprogress.done();
-            setTimeout(() => {
-                context.commit('loginUserSuccess', result.user);
-            }, 500)
-        }).catch(error => {
-            context.commit('loginUserFailure', error);
-        });
-    },
-    signinUserWithGoogle(context) {
-        context.commit('loginUser');
-        firebase.auth().signInWithPopup(googleAuthProvider).then((result) => {
-            Nprogress.done();
-            setTimeout(() => {
-                context.commit('loginUserSuccess', result.user);
-            }, 500)
-        }).catch(error => {
-            context.commit('loginUserFailure', error);
-        });
-    },
-    signinUserWithTwitter(context) {
-        context.commit('loginUser');
-        firebase.auth().signInWithPopup(twitterAuthProvider).then((result) => {
-            Nprogress.done();
-            setTimeout(() => {
-                context.commit('loginUserSuccess', result.user);
-            }, 500)
-        }).catch(error => {
-            context.commit('loginUserFailure', error);
-        });
-    },
-    signinUserWithGithub(context) {
-        context.commit('loginUser');
-        firebase.auth().signInWithPopup(githubAuthProvider).then((result) => {
-            Nprogress.done();
-            setTimeout(() => {
-                context.commit('loginUserSuccess', result.user);
-            }, 500)
-        }).catch(error => {
-            context.commit('loginUserFailure', error);
-        });
-    },
-    signupUserInFirebase(context, payload) {
+    signUp(context, payload) {
         let { userDetail } = payload;
         context.commit('signUpUser');
-        firebase.auth().createUserWithEmailAndPassword(userDetail.email, userDetail.password)
+        axios.post('/signup', payload)
             .then(() => {
                 Nprogress.done();
                 setTimeout(() => {
@@ -114,11 +58,17 @@ const actions = {
                 context.commit('signUpUserFailure', error);
             })
     },
-    signInUserWithAuth0(context, payload) {
-        context.commit('signInUserWithAuth0Success', payload);
-    },
-    signOutUserFromAuth0(context) {
-        context.commit('signOutUserFromAuth0Success');
+    AssignExchangeToUser(context, payload) {
+        const { uid, exchanges } = payload;
+        // POST/PUT/DELETE /exchange_key params - INT uid, INT eid, STR api_key, STR api_secret
+
+        axios.post('/exchange_key', payload)
+        .then(() => {
+            console.log("Exchange information updated for user");
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
     }
 }
 
@@ -130,8 +80,7 @@ const mutations = {
     loginUserSuccess(state, user) {
         state.user = user;
         localStorage.setItem('user',JSON.stringify(user));
-        state.isUserSigninWithAuth0 = false
-        router.push("/default/dashboard/ecommerce");
+        router.push("/dashboard/tradehistory");
         setTimeout(function(){
             Vue.notify({
                 group: 'loggedIn',
@@ -172,15 +121,6 @@ const mutations = {
             type: 'error',
             text: error.message
         });
-    },
-    signInUserWithAuth0Success(state, user) {
-        state.user = user;
-        localStorage.setItem('user',JSON.stringify(user));
-        state.isUserSigninWithAuth0 = true;
-    },
-    signOutUserFromAuth0Success(state) {
-        state.user = null
-        localStorage.removeItem('user')
     }
 }
 

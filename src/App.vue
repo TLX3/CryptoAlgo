@@ -8,32 +8,21 @@
 		'rtl-layout': rtlLayout
 	}]"
   > 
-    	<router-view :auth="auth" :authenticated="authenticated"></router-view>
-      <notifications 
-        group="loggedIn" 
-        position="top right"
-        animation-type="velocity"
-      />
+    <router-view></router-view>
+    <notifications 
+      group="loggedIn" 
+      position="top right"
+      animation-type="velocity"
+    />
   </v-app>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 
-import AuthService from "./auth/AuthService";
-
-const auth = new AuthService();
-
-const { login, logout, authenticated, authNotifier } = auth;
-
 export default {
   data() {
-    authNotifier.on("authChange", authState => {
-      this.authenticated = authState.authenticated;
-    });
     return {
-      auth,
-      authenticated,
       animation: {
         enter: {
           opacity: [1, 0],

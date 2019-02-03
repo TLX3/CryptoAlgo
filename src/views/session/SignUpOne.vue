@@ -26,60 +26,59 @@
                   <span>Source</span>
                 </v-tooltip>
               </v-toolbar>
-        	<v-card-text>
-					<v-form v-model="valid" class="mb-4">
-						<v-text-field 
-							label="Username" 
-							v-model="name" 
-							:rules="nameRules" 
-							:counter="20" 
-							required
-						></v-text-field>
-						<v-text-field 
-							label="E-mail ID" 
-							v-model="email" 
-							:rules="emailRules" 
-							required
-						></v-text-field>
-						<v-text-field 
-							label="Password" 
-							v-model="password" 
-							:rules="passwordRules" 
-							type="password" 
-							required
-						></v-text-field>
-						<v-btn large @click="submit" block color="primary" class="mb-3">{{$t('message.signUp')}}</v-btn>
-						<p class="fs-14">{{$t('message.havingAnAccount')}}
-							<router-link to="/login">{{$t('message.login')}}</router-link>
-						</p>
-						<p>{{$t('message.bySigningUpYouAgreeTo')}} {{brand}}</p>
-						<router-link to="">{{$t('message.termsOfService')}}</router-link>
-					</v-form>
-					<div class="session-social-links d-inline-block">
-						<ul class="list-inline">
-							<li @click="signInWithFacebook">
-								<span class="facebook-bg session-icon">
-									<i class="ti-facebook"></i>
-								</span>
-							</li>
-							<li @click="signInWithGoogle">
-								<span class="google-bg session-icon">
-									<i class="ti-google"></i>
-								</span>
-							</li>
-							<li @click="signInWithTwitter">
-								<span class="twitter-bg session-icon">
-									<i class="ti-twitter-alt"></i>
-								</span>
-							</li>
-							<li @click="signInWithGithub">
-								<span class="github-bg session-icon">
-									<i class="ti-github"></i>
-								</span>
-							</li>
-						</ul>
-					</div>
-
+        	    <v-card-text>
+                <v-form v-model="valid" class="mb-4">
+                  <v-text-field 
+                    label="Username" 
+                    v-model="name" 
+                    :rules="nameRules" 
+                    :counter="20" 
+                    required
+                  ></v-text-field>
+                  <v-text-field 
+                    label="E-mail ID" 
+                    v-model="email" 
+                    :rules="emailRules" 
+                    required
+                  ></v-text-field>
+                  <v-text-field 
+                    label="Password" 
+                    v-model="password" 
+                    :rules="passwordRules" 
+                    type="password" 
+                    required
+                  ></v-text-field>
+                  <v-btn large @click="submit" block color="primary" class="mb-3">{{$t('message.signUp')}}</v-btn>
+                  <p class="fs-14">{{$t('message.havingAnAccount')}}
+                    <router-link to="/login">{{$t('message.login')}}</router-link>
+                  </p>
+                  <p>{{$t('message.bySigningUpYouAgreeTo')}} {{brand}}</p>
+                  <router-link to="">{{$t('message.termsOfService')}}</router-link>
+                </v-form>
+                <div class="session-social-links d-inline-block">
+                  <ul class="list-inline">
+                    <li @click="signInWithFacebook">
+                      <span class="facebook-bg session-icon">
+                        <i class="ti-facebook"></i>
+                      </span>
+                    </li>
+                    <li @click="signInWithGoogle">
+                      <span class="google-bg session-icon">
+                        <i class="ti-google"></i>
+                      </span>
+                    </li>
+                    <li @click="signInWithTwitter">
+                      <span class="twitter-bg session-icon">
+                        <i class="ti-twitter-alt"></i>
+                      </span>
+                    </li>
+                    <li @click="signInWithGithub">
+                      <span class="github-bg session-icon">
+                        <i class="ti-github"></i>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
               </v-card-text>
             </v-card>
           </v-flex>
@@ -121,7 +120,7 @@ export default {
           email: this.email,
           password: this.password
         };
-        this.$store.dispatch("signupUserInFirebase", {
+        this.$store.dispatch("signupUser", {
           userDetail,
           router: this.$router
         });

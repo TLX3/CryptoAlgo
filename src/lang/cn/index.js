@@ -2,6 +2,7 @@
 export default {
   general: '一般',
   support: 'Support',
+  core: 'Core',
   tradehistory: 'Trade History',
   stats: 'Stats',
   charts: 'Charts',

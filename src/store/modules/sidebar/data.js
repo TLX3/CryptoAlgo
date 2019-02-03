@@ -1,6 +1,6 @@
 // Sidebar Routers
 export const menus = {
-	'message.general': [
+	'message.core': [
 		{
 			action: 'zmdi-view-dashboard',
 			title: 'message.dashboard',

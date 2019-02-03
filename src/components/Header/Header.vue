@@ -41,7 +41,6 @@
 				</div>
 			</div>
 			<div class="navbar-right">
-				<v-btn class="v-step-2 upgrade-btn" color="primary" tag="link" :to="getMenuLink('/pages/pricing-1')">{{ $t('message.plans') }}</v-btn>
 				<v-btn icon large @click="toggleFullScreen" class="full-screen ma-0">
 					<v-icon color="grey">fullscreen</v-icon>
 				</v-btn>

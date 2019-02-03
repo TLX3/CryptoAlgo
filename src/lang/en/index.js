@@ -1,6 +1,7 @@
 //messages.js
 export default {
   general: 'General',
+  core: 'Core',
   support: 'Support',
   tradehistory: 'Trade History',
   stats: 'Stats',

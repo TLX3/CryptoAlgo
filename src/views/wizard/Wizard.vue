@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
       <v-stepper class="mt-2" v-model="e1">
         <v-stepper-header>
           <v-stepper-step :complete="e1 > 1" step="1">Select Exchanges</v-stepper-step>
