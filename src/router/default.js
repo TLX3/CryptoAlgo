@@ -1,71 +1,94 @@
-import Full from 'Container/Full'
+import HorizontalLayout from 'Container/HorizontalLayout'
 
 // dashboard components
-const Ecommerce = () => import('Views/dashboard/Ecommerce');
+const TradeHistory = () => import('Views/dashboard/TradeHistory');
 const WebAnalytics = () => import('Views/dashboard/WebAnalytics');
-const Magazine = () => import('Views/dashboard/Magazine');
-const News = () => import('Views/dashboard/News');
-const Agency = () => import('Views/dashboard/Agency');
-const Saas = () => import('Views/dashboard/Saas');
+const Stats = () => import('Views/dashboard/Stats');
+const Backtesting = () => import('Views/dashboard/Backtesting');
+const Marketplace = () => import('Views/dashboard/Marketplace');
+
+// users views
+const UserProfile = () => import('Views/users/UserProfile');
+const UsersList = () => import('Views/users/UsersList');
+
+const Wizard = () => import('Views/wizard/Wizard');
 
 export default {
    path: '/',
-   component: Full,
-   redirect: '/default/dashboard/ecommerce',
+   component: HorizontalLayout,
+   redirect: '/dashboard/tradeHistory',
    children: [
       {
-         path: '/default/dashboard/ecommerce',
-         component: Ecommerce,
+         path: '/dashboard/tradeHistory',
+         component: TradeHistory,
          meta: {
             requiresAuth: true,
-            title: 'message.ecommerce',
-            breadcrumb: 'Dashboard / Ecommerce'
+            title: 'Trade History',
+            breadcrumb: 'Trade History'
          }
       },
       {
-         path: '/default/dashboard/web-analytics',
+         path: '/dashboard/web-analytics',
          component: WebAnalytics,
          meta: {
             requiresAuth: true,
-            title: 'message.webAnalytics',
-            breadcrumb: 'Dashboard / Web Analytics '
+            title: 'Charts',
          }
       },
       {
-         path: '/default/dashboard/magazine',
-         component: Magazine,
-         meta: {
-            requiresAuth: true,
-            title: 'message.magazine',
-            breadcrumb: 'Dashboard / Magazine '
-         }
-      },
-      {
-         path: '/default/dashboard/news',
-         component: News,
-         meta: {
-            requiresAuth: true,
-            title: 'message.news',
-            breadcrumb: 'Dashboard / News '
-         }
-      },
-      {
-         path: '/default/dashboard/agency',
-         component: Agency,
-         meta: {
-            requiresAuth: true,
-            title: 'message.agency',
-            breadcrumb: 'Dashboard / Agency'
-         }
-      },
-      {
-         component: Saas,
-         path: '/default/dashboard/saas',
-         meta: {
-            requiresAuth: true,
-            title: 'message.saas',
-            breadcrumb: 'Dashboard / SAAS'
-         }
+        path: '/dashboard/stats',
+        component: Stats,
+        meta: {
+           requiresAuth: true,
+           title: 'Stats',
+           breadcrumb: 'Stats'
+        }
+     },
+     {
+        path: '/dashboard/backtesting',
+        component: Backtesting,
+        meta: {
+           requiresAuth: true,
+           title: 'Backtesting',
+           breadcrumb: 'Backtesting'
+        }
+     },
+     {
+        path: '/dashboard/marketplace',
+        component: Marketplace,
+        meta: {
+           requiresAuth: true,
+           title: 'Marketplace',
+           breadcrumb: 'Marketplace'
+        }
+     },
+     {
+      path: '/dashboard/wizard',
+      component: Wizard,
+      meta: {
+         requiresAuth: true,
+         title: 'Config',
+         breadcrumb: 'Config'
       }
+    },
+    // users
+    {
+      path: '/users/user-profile',
+      component: UserProfile,
+      meta: {
+          requiresAuth: true,
+          title: 'message.userProfile',
+          breadcrumb: 'Users / User Profile'
+      }
+    },
+    {
+      path: '/users/users-list',
+      component: UsersList,
+      meta: {
+          requiresAuth: true,
+          title: 'message.usersList',
+          breadcrumb: 'Users / Users List'
+      }
+    },
    ]
 }

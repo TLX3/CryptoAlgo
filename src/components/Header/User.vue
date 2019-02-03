@@ -5,7 +5,7 @@
 		</v-btn>
 		<div class="dropdown-content">
          <div class="dropdown-top white--text primary">
-            <span class="white--text fs-14 fw-bold d-block">John Leider</span>
+            <span class="white--text fs-14 fw-bold d-block">Tseten Lama</span>
             <span class="d-block fs-12 fw-light">info@example.com</span>
          </div>
          <v-list class="dropdown-list">

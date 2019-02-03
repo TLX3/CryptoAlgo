@@ -8,13 +8,13 @@ import 'firebase/auth';
 import 'firebase/database';
 
 // Initialize Firebase 
-const config = {
-    apiKey: "AIzaSyD_2FLh1f_BJyKdzeqMvF-oB9Av2cLG6ps", // Your Api key will be here
-    authDomain: "reactify-61b82.firebaseapp.com", // Your auth domain
-    databaseURL: "https://reactify-61b82.firebaseio.com", // data base url
-    projectId: "reactify-61b82", // project id
-    storageBucket: "", // storage bucket
-    messagingSenderId: "598228895769" // messaging sender id
+let config = {
+    apiKey: "AIzaSyC1-h8rCnZxHlmurFYnZyWlFsULuSqJ-rI",
+    authDomain: "automated-trader-c5bca.firebaseapp.com",
+    databaseURL: "https://automated-trader-c5bca.firebaseio.com",
+    projectId: "automated-trader-c5bca",
+    storageBucket: "automated-trader-c5bca.appspot.com",
+    messagingSenderId: "616078201114"
 };
 
 firebase.initializeApp(config);

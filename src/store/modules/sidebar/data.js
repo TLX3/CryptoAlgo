@@ -1,18 +1,27 @@
 // Sidebar Routers
 export const menus = {
-	'message.general': [
+	'General': [
 		{
 			action: 'zmdi-view-dashboard',
-			title: 'message.dashboard',
+			title: 'Dashboard',
 			active: true,
 			items: [
-				{ title: 'message.ecommerce', path: '/default/dashboard/ecommerce', exact: true },
-				{ title: 'message.webAnalytics', path: '/mini/dashboard/web-analytics', exact: true },
-				{ title: 'message.magazine', path: '/horizontal/dashboard/magazine', exact: true },
-				{ title: 'message.news', path: '/boxed-v2/dashboard/news', exact: true },
-				{ title: 'message.agency', path: '/boxed/dashboard/agency', exact: true },
-				{ title: 'message.saas', path: '/horizontal/dashboard/saas', exact: true }
+				{ action: 'zmdi-time-restore', title: 'Trade History', path: '/dashboard/tradeHistory', exact: true },
+				{ action: 'zmdi-trending-up', title: 'Stats', path: '/dashboard/stats', exact: true },
+				{ action: 'zmdi-chart', title: 'Charts', path: '/dashboard/web-analytics', exact: true },
+				{ action: 'zmdi-check-all', title: 'Backtesting', path: '/dashboard/backtesting', exact: true },
+				{ action: 'zmdi-store', title: 'Marketplace', path: '/dashboard/marketplace', exact: true },
+				{ action: 'zmdi-settings', title: 'Config', path: '/dashboard/wizard', exact: true }
 			]
 		}
-	]
+	],
+	'Support': [
+		{
+			action: 'zmdi-book',
+			title: 'Documentation',
+			active: false,
+			items: null,
+			path: '/documentation'
+		}
+	],
 }

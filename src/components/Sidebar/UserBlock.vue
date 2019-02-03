@@ -4,7 +4,7 @@
 			<img src="/static/avatars/user-13.jpg" alt="avatar" height="40" width="40" class="img-responsive" />
 		</v-list-tile-avatar>
 		<v-list-tile-content class="ml-3">
-			<v-list-tile-title><span>John Leider</span></v-list-tile-title>
+			<v-list-tile-title><span>Tseten Lama</span></v-list-tile-title>
 		</v-list-tile-content>
 		<v-menu 
 			bottom
@@ -20,7 +20,7 @@
 			</v-btn>
 			<div class="dropdown-content">
 				<div class="dropdown-top white--text primary">
-					<span class="white--text fs-14 fw-bold d-block">John Leider</span>
+					<span class="white--text fs-14 fw-bold d-block">Tseten Lama</span>
 					<span class="d-block fs-12 fw-light">info@example.com</span>
 				</div>
 				<v-list class="dropdown-list">
