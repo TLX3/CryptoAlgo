@@ -11,15 +11,12 @@
           <v-divider></v-divider>
           <v-container grid-list-sm>
             <v-layout row wrap>
-              <v-flex
-                v-for="name in names"
-                :key="name"
-              >
+              <v-flex v-for="exchange in exchanges" :key="exchange.name">
                 <v-card raised flatclass="d-flex">
                   <v-img
-                    :src="'/static/exchanges/' + name + '_logo.png'"
+                    :src="'/static/exchanges/' + exchange.name + '.png'"
                     style='cursor: pointer;'
-                    @click='selectExchange(name)'
+                    @click='selectExchange(exchange)'
                   >
                     <v-layout
                       slot="placeholder"
@@ -37,34 +34,46 @@
           </v-container>
         </v-card>
       </v-flex>
-      <APIKeysDialog :exchangeName='selectedName' @submitAPIKey='clearName()' />
+      <APIKeysDialog :selectedExchange='selectedExchange' @clearExchange='clearExchange' />
   </div>
 </template>
 
 <script>
-import firebase from "firebase";
 import { mapGetters } from "vuex";
+import axios from 'axios'
 import APIKeysDialog from './APIKeysDialog'
 
 export default {
   data() {
     return {
-      names: ['huobi', 'binance', 'gdax', 'bitfinex', 'bittrex', 'kraken', 'poloniex', 'kucoin'],
-      selectedName: ''
+      exchanges: [],
+      selectedExchange: {}
     };
   },
   components: {
     APIKeysDialog
   },
+  mounted () {
+    //GET exchanges
+    axios.get('http://35.235.83.44:5000/exchanges')
+      .then((res) => {
+        console.log(res.data)
+        this.exchanges = res.data
+      })
+      .catch((err) => {
+        
+      })
+  },
   computed: {
     ...mapGetters(["getUID", "getUserInfo"])
   },
   methods: {
-    selectExchange (name) {
-      this.selectedName = name
+    selectExchange (exchange) {
+      this.selectedExchange = exchange
     },
-    clearName () {
-      this.selectedName = ''
+    clearExchange () {
+      this.selectedExchange = {}
+      console.log("A")
     }
   }
 }

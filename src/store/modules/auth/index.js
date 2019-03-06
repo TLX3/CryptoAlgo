@@ -7,19 +7,21 @@ import axios from 'axios'
 import router from '../../../router';
 
 const state = {
-    user: localStorage.getItem('user'),
+    token: localStorage.getItem('token'),
+    uid: '',
+    info: ''
 }
 
 // getters
 const getters = {
     getUser: state => {
-        return state.user;
+        return state.token;
     },
     getUID: state => {
-        return state.user.uid;
+        return state.uid;
     },
     getUserInfo: state => {
-        return state.user.info
+        return state.info
     }
 }
 
@@ -27,14 +29,21 @@ const getters = {
 const actions = {
     signIn(context, payload) {
         context.commit('loginUser');
-        axios.post('/login', payload)
-            .then(user => {
+        console.log(payload)
+        let headers = {
+            'Content-Type': 'application/json'
+        }
+        axios.post('http://35.235.83.44:5000/login', payload, {headers: headers})
+            .then(res => {
                 Nprogress.done();
+                console.log(res)
                 setTimeout(() => {
-                    context.commit('loginUserSuccess', user);
+                    context.commit('loginUserSuccess', res.data.token);
+                    context.commit('setUID', res.data.uid)
                 }, 500)
             })
             .catch(error => {
+                console.log(error)
                 context.commit('loginUserFailure', error);
             });
     },
@@ -44,25 +53,28 @@ const actions = {
             context.commit('logoutUser');
         }, 500)
     },
-    signUp(context, payload) {
-        let { userDetail } = payload;
+    signupUser(context, payload) {
         context.commit('signUpUser');
-        axios.post('/signup', payload)
-            .then(() => {
+        console.log(payload)
+        axios.post('http://35.235.83.44:5000/user', payload)
+            .then((res) => {
+                console.log(res)
                 Nprogress.done();
                 setTimeout(() => {
-                    context.commit('signUpUserSuccess', userDetail);
+                    context.commit('signUpUserSuccess', res.data.token);
+                    context.commit('setUID', res.data.uid)
                 }, 500)
             })
             .catch(error => {
+                console.log(error)
                 context.commit('signUpUserFailure', error);
             })
     },
-    AssignExchangeToUser(context, payload) {
-        const { uid, exchanges } = payload;
+    updateExchangeForUser(context, payload) {
+        const { uid, eid, api_key, api_secret } = payload;
         // POST/PUT/DELETE /exchange_key params - INT uid, INT eid, STR api_key, STR api_secret
-
-        axios.post('/exchange_key', payload)
+        console.log(payload, "HERE")
+        axios.post('http://35.235.83.44:5000/exchange_key', { uid, eid, api_key, api_secret })
         .then(() => {
             console.log("Exchange information updated for user");
         })
@@ -77,9 +89,9 @@ const mutations = {
     loginUser(state) {
         Nprogress.start();
     },
-    loginUserSuccess(state, user) {
-        state.user = user;
-        localStorage.setItem('user',JSON.stringify(user));
+    loginUserSuccess(state, token) {
+        state.token = token;
+        localStorage.setItem('token', token);
         router.push("/dashboard/tradehistory");
         setTimeout(function(){
             Vue.notify({
@@ -98,16 +110,17 @@ const mutations = {
         });
     },
     logoutUser(state) {
-        state.user = null
-        localStorage.removeItem('user');
+        state.token = null
+        state.uid = null
+        localStorage.removeItem('token');
         router.push("/login");
     },
     signUpUser(state) {
         Nprogress.start();
     },
-    signUpUserSuccess(state, user) {
-        state.user = localStorage.setItem('user', user);
-        router.push("/dashboard/tradeHistory");
+    signUpUserSuccess(state, token) {
+        state.token = localStorage.setItem('token', token);
+        router.push("/dashboard/wizard");
         Vue.notify({
             group: 'loggedIn',
             type: 'success',
@@ -121,6 +134,9 @@ const mutations = {
             type: 'error',
             text: error.message
         });
+    },
+    setUID(state, uid) {
+        state.uid = uid
     }
 }
 

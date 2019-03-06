@@ -5,7 +5,6 @@ import Vuex from 'vuex'
 import auth from './modules/auth';
 import chat from './modules/chat';
 import settings from './modules/settings';
-import ecommerce from './modules/ecommerce';
 import mail from './modules/mail';
 import sidebar from './modules/sidebar';
 
@@ -16,7 +15,6 @@ export const store = new Vuex.Store({
         auth,
         chat,
         settings,
-        ecommerce,
         mail,
         sidebar
     }

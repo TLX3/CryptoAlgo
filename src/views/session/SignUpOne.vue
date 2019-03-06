@@ -120,10 +120,7 @@ export default {
           email: this.email,
           password: this.password
         };
-        this.$store.dispatch("signupUser", {
-          userDetail,
-          router: this.$router
-        });
+        this.$store.dispatch("signupUser", userDetail);
       }
     },
     signInWithFacebook() {

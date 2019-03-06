@@ -7,97 +7,71 @@
         <v-card-text style="height: 300px;">
         <v-data-table
           :headers="headers"
-          :items="desserts"
+          :items="items"
           select-all
+          :expand="expand"
         >
           <template slot="items" slot-scope="props">
-            <td>
-              <v-checkbox
-                v-model="props.selected"
-                primary
-                hide-details
-              ></v-checkbox>
-            </td>
-            <td class="text-xs-left">{{ props.item.name }}</td>
-            <td class="text-xs-left">{{ props.item.calories }}</td>
+            <tr @click="props.expanded = !props.expanded">
+              <td>
+                <v-checkbox
+                  v-model="props.selected"
+                  primary
+                  hide-details
+                ></v-checkbox>
+              </td>
+              <td class="text-xs-left">{{ props.item.name }}</td>
+              <td class="text-xs-left">{{ props.item.description }}</td>
+            </tr>
+          </template>
+          <template v-slot:expand="props">
+            <v-card flat>
+              <v-card-text>Additional Fields</v-card-text>
+            </v-card>
           </template>
         </v-data-table>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
           <v-btn color="blue darken-1" flat @click="$emit('closeDialog')">Close</v-btn>
-          <v-btn color="blue darken-1" flat @click="$emit('closeDialog')">Save</v-btn>
+          <v-btn color="blue darken-1" flat @click="addAlgorithm(); $emit('closeDialog')">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </v-layout>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
   props: ['dialogType', 'showDialog'],
-data () {
+  data () {
       return {
         headers: [
-          {
-            text: 'Name',
-            sortable: false,
-            value: 'name'
-          },
-          { text: '', sortable: false, value: 'calories' }
+          { text: 'Name', value: 'name' },
+          { text: 'Description', value: 'description' }
         ],
-        desserts: [
-          {
-            value: false,
-            name: 'Frozen Yogurt',
-            calories: 159
-          },
-          {
-            value: false,
-            name: 'Ice cream sandwich',
-            calories: 237
-          },
-          {
-            value: false,
-            name: 'Eclair',
-            calories: 262
-          },
-          {
-            value: false,
-            name: 'Cupcake',
-            calories: 305
-          },
-          {
-            value: false,
-            name: 'Gingerbread',
-            calories: 356
-          },
-          {
-            value: false,
-            name: 'Jelly bean',
-            calories: 375
-          },
-          {
-            value: false,
-            name: 'Lollipop',
-            calories: 392
-          },
-          {
-            value: false,
-            name: 'Honeycomb',
-            calories: 408
-          },
-          {
-            value: false,
-            name: 'Donut',
-            calories: 452
-          },
-          {
-            value: false,
-            name: 'KitKat',
-            calories: 518
-          }
-        ]
+        items: [],
+        expand: false
       }
+  },
+  methods: {
+    addAlgorithm () {
+
+    }
+  },
+  watch: {
+    dialogType: function (val) {
+      if (val && val.slice(-1)[0] === "Algorithms") {
+        axios.get('http://35.235.83.44:5000/algorithms')
+          .then((res) => {
+            this.items = res.data
+          })
+          .catch((err) => {
+
+          })
+      }
+    }
   }
 }
 </script>

@@ -38,9 +38,6 @@ import primaryTheme from './themes/primaryTheme';
 // store
 import { store } from './store/store';
 
-// firebase
-import './firebase'
-
 // include script file
 import './lib/VuelyScript'
 
@@ -53,7 +50,10 @@ import messages from './lang';
 // navigation guards before each
 router.beforeEach((to, from, next) => {
 	Nprogress.start()
-	next() // make sure to always call next()!
+	// verify user has valid auth token otherwise reroute to login page
+	if (to.path !== '/login' && to.path !== '/sign-up' && !localStorage.getItem('token')) next('/login')
+	else
+	 next() // make sure to always call next()!
 })
 
 // navigation guard after each

@@ -116,12 +116,10 @@ export default {
   methods: {
     submit() {
       const user = {
-        email: this.email,
+        username: this.email,
         password: this.password
       };
-      this.$store.dispatch("signIn", {
-        user
-      });
+      this.$store.dispatch("signIn", user);
     },
     signInWithFacebook() {
       this.$store.dispatch("signinUserWithFacebook");

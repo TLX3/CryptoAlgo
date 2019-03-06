@@ -60,7 +60,7 @@
       },
       methods: {
          logoutUser() {
-            this.$store.dispatch("logout", this.$router);
+            this.$store.dispatch("logOut", this.$router);
          },
          getMenuLink(path) {
             return '/' + getCurrentAppLayout(this.$router) +  path;
