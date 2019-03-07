@@ -1,8 +1,9 @@
 <template>
   <v-card>
     <v-data-table
+      v-model="selected"
       :headers="headers"
-      :items="strategies"
+      :items="getSelectedAlgorithms"
       class="elevation-1"
       select-all
     >
@@ -15,14 +16,18 @@
           ></v-checkbox>
         </td>
         <td>{{ props.item.name }}</td>
+        <td>{{ props.item.description }}</td>
       </template>
     </v-data-table>
   </v-card>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data () {
       return {
+        selected: [],
         headers: [
           {
             text: 'Name',
@@ -31,8 +36,10 @@ export default {
           },
           { text: 'Description', value: 'description' },
         ],
-        strategies: []
       }
-  }
+  },
+  computed: {
+    ...mapGetters(["getSelectedAlgorithms"])
+  },
 }
 </script>

@@ -8,7 +8,7 @@ import router from '../../../router';
 
 const state = {
     token: localStorage.getItem('token'),
-    uid: '',
+    uid: localStorage.getItem('uid'),
     info: ''
 }
 
@@ -69,18 +69,6 @@ const actions = {
                 console.log(error)
                 context.commit('signUpUserFailure', error);
             })
-    },
-    updateExchangeForUser(context, payload) {
-        const { uid, eid, api_key, api_secret } = payload;
-        // POST/PUT/DELETE /exchange_key params - INT uid, INT eid, STR api_key, STR api_secret
-        console.log(payload, "HERE")
-        axios.post('http://35.235.83.44:5000/exchange_key', { uid, eid, api_key, api_secret })
-        .then(() => {
-            console.log("Exchange information updated for user");
-        })
-        .catch((error) => {
-            console.error("Error writing document: ", error);
-        });
     }
 }
 
@@ -113,6 +101,7 @@ const mutations = {
         state.token = null
         state.uid = null
         localStorage.removeItem('token');
+        localStorage.removeItem('uid');
         router.push("/login");
     },
     signUpUser(state) {
@@ -136,6 +125,7 @@ const mutations = {
         });
     },
     setUID(state, uid) {
+        localStorage.setItem('uid', uid)
         state.uid = uid
     }
 }

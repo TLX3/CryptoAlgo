@@ -6,6 +6,7 @@
         <v-divider></v-divider>
         <v-card-text style="height: 300px;">
         <v-data-table
+          v-model="selected"
           :headers="headers"
           :items="items"
           select-all
@@ -34,7 +35,7 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-btn color="blue darken-1" flat @click="$emit('closeDialog')">Close</v-btn>
-          <v-btn color="blue darken-1" flat @click="addAlgorithm(); $emit('closeDialog')">Save</v-btn>
+          <v-btn color="blue darken-1" flat @click="selectAlgorithms(); $emit('closeDialog')">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -47,6 +48,7 @@ export default {
   props: ['dialogType', 'showDialog'],
   data () {
       return {
+        selected: [],
         headers: [
           { text: 'Name', value: 'name' },
           { text: 'Description', value: 'description' }
@@ -56,8 +58,8 @@ export default {
       }
   },
   methods: {
-    addAlgorithm () {
-
+    selectAlgorithms () {
+      this.$store.dispatch("setSelectedAlgorithms", this.selected);
     }
   },
   watch: {

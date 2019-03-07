@@ -19,6 +19,7 @@
             <v-btn
               color="primary"
               @click="e1 = 2"
+              v-if='getUserExchanges'
             >
               Continue
             </v-btn>
@@ -33,6 +34,7 @@
             <v-btn
               color="primary"
               @click="e1 = 3"
+              v-if='getSelectedAlgorithms.length > 0'
             >
               Continue
             </v-btn>
@@ -43,18 +45,20 @@
           <v-stepper-content step="3">
             <v-card
               class="mb-5"
-              color="grey lighten-1"
               height="300px"
-            ></v-card>
+            >
+              <Run />
+            </v-card>
     
             <v-btn
               color="primary"
-              @click="e1 = 1"
+              @click="saveAlgoSettings()"
             >
-              Start
+              Save
             </v-btn>
     
             <v-btn @click="e1 = 2">Back</v-btn>
+            <v-btn @click='$router.push("/dashboard/tradehistory");'>Home</v-btn>
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
@@ -62,8 +66,11 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import axios from 'axios'
 import ExchangeSelection from './ExchangeSelection'
 import Strategy from './Strategy'
+import Run from './Run'
 
 export default {
   data () {
@@ -73,7 +80,24 @@ export default {
   },
   components: {
     ExchangeSelection,
-    Strategy
+    Strategy,
+    Run
+  },
+  computed: {
+    ...mapGetters(["getUID", "getUserInfo", "getUserExchanges", "getUserAlgorithms", "getSelectedAlgorithms"])
+  },
+  mounted () {
+      this.$store.dispatch("getExistingUserExchanges", this.getUID);
+      this.$store.dispatch("getExistingUserAlgorithms", this.getUID);
+  },
+  methods: {
+    saveAlgoSettings () {
+      this.getSelectedAlgorithms.forEach((algorithm) => {
+        algorithm.uid = this.getUID
+        if (!Object.keys(algorithm).includes('enabled')) algorithm.enabled = false
+        this.$store.dispatch('addAlgorithmForUser', algorithm)
+      })
+    }
   }
 }
 </script>

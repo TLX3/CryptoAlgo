@@ -7,6 +7,7 @@ import chat from './modules/chat';
 import settings from './modules/settings';
 import mail from './modules/mail';
 import sidebar from './modules/sidebar';
+import wizard from './modules/wizard';
 
 Vue.use(Vuex);
 
@@ -16,6 +17,7 @@ export const store = new Vuex.Store({
         chat,
         settings,
         mail,
-        sidebar
+        sidebar,
+        wizard
     }
 })

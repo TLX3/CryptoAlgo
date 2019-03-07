@@ -65,7 +65,7 @@ export default {
         uid: this.getUID,
         eid: this.selectedExchange.id,
         api_key: this.api_key,
-        api_secret: this.api_private_key
+        api_secret: this.api_secret_key
       }
       this.$store.dispatch("updateExchangeForUser", payload);
       this.$emit('clearExchange');

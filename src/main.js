@@ -51,7 +51,8 @@ import messages from './lang';
 router.beforeEach((to, from, next) => {
 	Nprogress.start()
 	// verify user has valid auth token otherwise reroute to login page
-	if (to.path !== '/login' && to.path !== '/sign-up' && !localStorage.getItem('token')) next('/login')
+	if (to.path !== '/login' && to.path !== '/sign-up' && 
+		(!localStorage.getItem('token') || !localStorage.getItem('uid'))) next('/login')
 	else
 	 next() // make sure to always call next()!
 })

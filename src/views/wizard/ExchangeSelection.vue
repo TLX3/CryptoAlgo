@@ -47,14 +47,15 @@ export default {
   data() {
     return {
       exchanges: [],
-      selectedExchange: {}
+      selectedExchange: {},
+      usersExchanges: []
     };
   },
   components: {
     APIKeysDialog
   },
   mounted () {
-    //GET exchanges
+    // GET exchanges
     axios.get('http://35.235.83.44:5000/exchanges')
       .then((res) => {
         console.log(res.data)
