@@ -22,6 +22,10 @@ import fullscreen from 'vue-fullscreen'
 import InstantSearch from 'vue-instantsearch'
 import VueVideoPlayer from 'vue-video-player';
 import Croppa from 'vue-croppa';
+import { VueReCaptcha } from 'vue-recaptcha-v3'
+
+// For more options see below
+Vue.use(VueReCaptcha, { siteKey: '6Ldob5kUAAAAAEwEDKrKDqG8PGPrDnF8-xL6Whwa' })
 
 // global components
 import GlobalComponents from './globalComponents'
@@ -51,9 +55,9 @@ import messages from './lang';
 router.beforeEach((to, from, next) => {
 	Nprogress.start()
 	// verify user has valid auth token otherwise reroute to login page
-	if (to.path !== '/login' && to.path !== '/sign-up' && 
-		(!localStorage.getItem('token') || !localStorage.getItem('uid'))) next('/login')
-	else
+	// if (to.path !== '/login' && to.path !== '/sign-up' && 
+	// 	(!localStorage.getItem('token') || !localStorage.getItem('uid'))) next('/login')
+	// else
 	 next() // make sure to always call next()!
 })
 
@@ -98,11 +102,6 @@ Vue.use(fullscreen);
 Vue.use(GlobalComponents);
 Vue.use(VueVideoPlayer);
 Vue.use(Croppa);
-Vue.use(VueGoogleMaps, {
-	load: {
-		key: 'AIzaSyBtdO5k6CRntAMJCF-H5uZjTCoSGX95cdk' // Add your here your google map api key
-	}
-})
 
 // Create VueI18n instance with options
 const i18n = new VueI18n({

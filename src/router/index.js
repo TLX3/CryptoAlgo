@@ -14,7 +14,6 @@ const ResetPassword = () => import('Views/session/ResetPassword');
 Vue.use(Router)
 
 export default new Router({
-	mode: 'history',
 	routes: [
 		defaultRoutes,
 		{

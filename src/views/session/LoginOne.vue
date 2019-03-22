@@ -115,6 +115,9 @@ export default {
   },
   methods: {
     submit() {
+      // this.$recaptcha('login').then((token) => {
+      //   console.log(token) // Will print the token
+      // })
       const user = {
         username: this.email,
         password: this.password

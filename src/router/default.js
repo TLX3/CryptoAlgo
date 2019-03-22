@@ -1,7 +1,7 @@
 import HorizontalLayout from 'Container/HorizontalLayout'
 
 // dashboard components
-const TradeHistory = () => import('Views/dashboard/TradeHistory');
+const TradingHistory = () => import('Views/tradeHistory/TradingHistory');
 const WebAnalytics = () => import('Views/dashboard/WebAnalytics');
 const Stats = () => import('Views/dashboard/Stats');
 const Backtesting = () => import('Views/dashboard/Backtesting');
@@ -20,12 +20,7 @@ export default {
    children: [
       {
          path: '/dashboard/tradeHistory',
-         component: TradeHistory,
-         meta: {
-            requiresAuth: true,
-            title: 'message.tradehistory',
-            breadcrumb: 'Trade History'
-         }
+         component: TradingHistory
       },
       {
          path: '/dashboard/web-analytics',

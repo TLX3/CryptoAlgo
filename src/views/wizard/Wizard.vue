@@ -4,7 +4,7 @@
         <v-stepper-header>
           <v-stepper-step :complete="e1 > 1" step="1">Select Exchanges</v-stepper-step>
           <v-divider></v-divider>
-          <v-stepper-step :complete="e1 > 2" step="2">Create Strategy</v-stepper-step>
+          <v-stepper-step :complete="e1 > 2" step="2">Choose Algorithms</v-stepper-step>
           <v-divider></v-divider>
           <v-stepper-step step="3">Configure Settings</v-stepper-step>
         </v-stepper-header>
@@ -18,10 +18,17 @@
             </v-card>
             <v-btn
               color="primary"
+              @click="e1 = 2; createAlgorithm = true"
+              v-if='getUserExchanges'
+            >
+              Create Algorithm
+            </v-btn>
+            <v-btn
+              color="primary"
               @click="e1 = 2"
               v-if='getUserExchanges'
             >
-              Continue
+              Select Prebuilt Algorithm
             </v-btn>
           </v-stepper-content>
     
@@ -29,7 +36,8 @@
             <v-card
               class="mb-5"
             >
-              <Strategy />
+              <CreateAlgorithm v-if='createAlgorithm'/>
+              <SelectPrebuiltAlgorithm v-else/>
             </v-card>
             <v-btn
               color="primary"
@@ -39,7 +47,7 @@
               Continue
             </v-btn>
     
-            <v-btn @click="e1 = 1">Back</v-btn>
+            <v-btn @click="e1 = 1; createAlgorithm = false">Back</v-btn>
           </v-stepper-content>
     
           <v-stepper-content step="3">
@@ -69,18 +77,21 @@
 import { mapGetters } from "vuex";
 import axios from 'axios'
 import ExchangeSelection from './ExchangeSelection'
-import Strategy from './Strategy'
+import SelectPrebuiltAlgorithm from './SelectPrebuiltAlgorithm'
+import CreateAlgorithm from './CreateAlgorithm'
 import Run from './Run'
 
 export default {
   data () {
     return {
-      e1: 0
+      e1: 0,
+      createAlgorithm: false
     }
   },
   components: {
     ExchangeSelection,
-    Strategy,
+    SelectPrebuiltAlgorithm,
+    CreateAlgorithm,
     Run
   },
   computed: {
