@@ -48,13 +48,14 @@ const actions = {
           console.error("Error writing document: ", error);
       });
     },
-    updateExchangeForUser(context, payload) {
+    updateExchangeForUser({ commit, state }, payload) {
         const { uid, eid, api_key, api_secret } = payload;
         // POST/PUT/DELETE /exchange_key params - INT uid, INT eid, STR api_key, STR api_secret
         console.log(payload, "HERE")
         axios.post('http://35.235.83.44:5000/exchange_key', { uid, eid, api_key, api_secret })
-        .then(() => {
-            console.log("Exchange information updated for user");
+        .then((res) => {
+            console.log("Exchange information updated for user", res);
+            commit('setUserExchanges', [eid ,...state.userExchanges]);
         })
         .catch((error) => {
             console.error("Error writing document: ", error);

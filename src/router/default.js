@@ -14,9 +14,8 @@ const UsersList = () => import('Views/users/UsersList');
 const Wizard = () => import('Views/wizard/Wizard');
 
 export default {
-   path: '/',
+   path: '/dashboard/tradeHistory',
    component: HorizontalLayout,
-   redirect: '/dashboard/tradeHistory',
    children: [
       {
          path: '/dashboard/tradeHistory',

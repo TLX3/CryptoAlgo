@@ -4,6 +4,9 @@ import Router from 'vue-router'
 //routes
 import defaultRoutes from './default';
 
+// landing page
+const Landing = () => import('Views/landing/Landing');
+
 // session components
 const SignUpOne = () => import('Views/session/SignUpOne');
 const LoginOne = () => import('Views/session/LoginOne');
@@ -16,6 +19,10 @@ Vue.use(Router)
 export default new Router({
 	routes: [
 		defaultRoutes,
+		{
+			path: '/',
+			component: Landing
+		},
 		{
 			path: '/sign-up',
 			component: SignUpOne,
