@@ -14,12 +14,18 @@ const UsersList = () => import('Views/users/UsersList');
 const Wizard = () => import('Views/wizard/Wizard');
 
 export default {
-   path: '/dashboard/tradeHistory',
+   path: '/',
    component: HorizontalLayout,
+   redirect: '/dashboard/tradeHistory',
    children: [
       {
          path: '/dashboard/tradeHistory',
-         component: TradingHistory
+         component: TradingHistory,
+         meta: {
+            requiresAuth: true,
+            title: 'message.tradehistory',
+            breadcrumb: 'Trade History'
+         }
       },
       {
          path: '/dashboard/web-analytics',

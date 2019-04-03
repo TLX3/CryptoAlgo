@@ -37,6 +37,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import axios from 'axios'
 
 export default {
   props: ['selectedExchange'],
@@ -67,8 +68,24 @@ export default {
         api_key: this.api_key,
         api_secret: this.api_secret_key
       }
-      this.$store.dispatch("updateExchangeForUser", payload);
-      this.$emit('clearExchange');
+      // verify api key is valid before updating for user
+      axios.get('http://35.235.83.44:5000/trade_history', {
+        params: {
+          exchange_id: this.selectedExchange.id,
+          api_key: this.api_key,
+          secret: this.api_secret_key
+        }
+      })
+      .then((res) => {
+        console.log(res, '--------')
+        if (res.data) {
+          this.$store.dispatch("updateExchangeForUser", payload);
+          this.$emit('clearExchange');
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   },
   computed: {

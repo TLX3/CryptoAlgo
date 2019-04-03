@@ -55,10 +55,14 @@ import messages from './lang';
 router.beforeEach((to, from, next) => {
 	Nprogress.start()
 	// verify user has valid auth token otherwise reroute to login page
-	// if (to.path !== '/login' && to.path !== '/sign-up' && 
-	// 	(!localStorage.getItem('token') || !localStorage.getItem('uid'))) next('/login')
-	// else
-	 next() // make sure to always call next()!
+	if (to.path !== '/login' && to.path !== '/sign-up' && to.path !== '/landing' &&
+		(!localStorage.getItem('token') || !localStorage.getItem('uid'))) {
+			next('/landing')
+			Nprogress.done()
+	} 
+	else {
+		next() // make sure to always call next()!
+	}
 })
 
 // navigation guard after each
@@ -84,7 +88,11 @@ router.afterEach((to, from) => {
 
 // plugins
 Vue.use(Vuetify, {
-	theme: store.getters.selectedTheme.theme
+  theme: {
+    primary: '#727891',
+    secondary: '#29B6F6',
+		anyColor: '#0000'
+	}
 });
 Vue.use(InstantSearch);
 Vue.use(VueI18n)

@@ -1,22 +1,22 @@
 <template>
   <div>
       <v-flex xs12>
-        <v-card flat>
+        <v-card flat class='py-2'>
           <v-card-title primary-title>
             <div>
-              <div class="headline">Available Exchanges</div>
-              <span>Select the exchanges that you want to connect to</span>
+              <div style='font-size: 28px;'>Available Exchanges</div>
+              <span>Select the exchanges that you want your account to connect to</span>
             </div>
           </v-card-title>
           <v-divider></v-divider>
-          <v-container grid-list-sm>
-            <v-layout row wrap>
-              <v-flex v-for="exchange in exchanges" :key="exchange.name">
-                <v-card raised flatclass="d-flex">
+            <v-layout wrap row>
+              <v-flex v-for="exchange in exchanges" :key="exchange.name" xs2 class='ma-2'>
+                <v-card>
                   <v-img
                     :src="'/static/exchanges/' + exchange.name + '.png'"
                     style='cursor: pointer;'
                     @click='selectExchange(exchange)'
+                    aspect-ratio="3"
                   >
                     <v-layout
                       slot="placeholder"
@@ -31,7 +31,6 @@
                 </v-card>
               </v-flex>
             </v-layout>
-          </v-container>
         </v-card>
       </v-flex>
       <APIKeysDialog :selectedExchange='selectedExchange' @clearExchange='clearExchange' />

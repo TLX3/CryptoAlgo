@@ -21,6 +21,9 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+import axios from "axios";
+
   export default {
     data () {
       return {
@@ -38,22 +41,37 @@
         orders: []
       }
     },
+    computed: {
+    ...mapGetters(["getUID"])
+    },
     mounted () {
-      let fakeOrders = []
-      for (let i = 0; i < 25; i++) {
-        fakeOrders.push({
-          'order_id': i + 1,
-          'currency': 'ETH',
-          'type': ['BUY', 'SELL'][i % 2 ? 1 : 0],
-          'date': new Date(),
-          'amount': Math.ceil(Math.random() * 100),
-          'rate': '$' + (Math.random() * 1000).toFixed(2),
-          'fee': '$'+ (Math.random() * 1).toFixed(2),
-          'total': '$' + (Math.random() * 10000).toFixed(2),
-          'result': '$' + (Math.random() * 10000).toFixed(2)
-        })
-      }
-      this.orders = fakeOrders
+      axios.get('http://35.235.83.44:5000/trade_history', {
+        params: {
+          uid: this.getUID
+        }
+      })
+      .then((res) => {
+        console.log(res)
+        if (res) this.orders = res.data
+      })
+      .catch((err) => {
+          console.log(err)
+      });
+      // let fakeOrders = []
+      // for (let i = 0; i < 25; i++) {
+      //   fakeOrders.push({
+      //     'order_id': i + 1,
+      //     'currency': 'ETH',
+      //     'type': ['BUY', 'SELL'][i % 2 ? 1 : 0],
+      //     'date': new Date(),
+      //     'amount': Math.ceil(Math.random() * 100),
+      //     'rate': '$' + (Math.random() * 1000).toFixed(2),
+      //     'fee': '$'+ (Math.random() * 1).toFixed(2),
+      //     'total': '$' + (Math.random() * 10000).toFixed(2),
+      //     'result': '$' + (Math.random() * 10000).toFixed(2)
+      //   })
+      // }
+      // this.orders = fakeOrders
     }
   }
 </script>

@@ -121,7 +121,7 @@
                     <v-text-field box label="Email address" :rules="emailRules" v-model="email" hint="Enter your email!" persistent-hint></v-text-field>
                   </v-flex>
                   <v-flex xs12 v-if="!subscribed">
-                    <v-text-field box multi-line label="Bio and curiosities"></v-text-field>
+                    <v-textarea label="Bio and curiosities"></v-textarea>
                   </v-flex>
                   <v-flex xs12 class="text-xs-center" v-if="!subscribed">
                     <v-btn class="blue lighten-2 mb-5" dark large @click="subscribe">Get in touch</v-btn>
@@ -241,7 +241,6 @@ export default {
       this.subscribed = !this.subscribed;
     }
   },
-
   computed: {
     imgHeight: function() {
       var offset = 320;
@@ -249,9 +248,7 @@ export default {
       return this.pageHeight - offset;
     }
   },
-
   mounted: function() {
-    this.calculateHeight();
   }
 };
 </script>

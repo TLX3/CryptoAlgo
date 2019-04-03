@@ -38,8 +38,8 @@ const actions = {
                 Nprogress.done();
                 console.log(res)
                 setTimeout(() => {
-                    context.commit('loginUserSuccess', res.data.token);
                     context.commit('setUID', res.data.uid)
+                    context.commit('loginUserSuccess', res.data.token);
                 }, 500)
             })
             .catch(error => {

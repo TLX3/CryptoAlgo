@@ -20,7 +20,7 @@ export default new Router({
 	routes: [
 		defaultRoutes,
 		{
-			path: '/',
+			path: '/landing',
 			component: Landing
 		},
 		{
