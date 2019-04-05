@@ -48,7 +48,19 @@ export default {
       api_private_key: '',
       api_secret_key: '',
       huobi_uid: '',
-      gdax_passphrase: ''
+      gdax_passphrase: '',
+      idToExchange: {
+        "1": "binance",
+        "2": "bitfinex",
+        "3": "bittrex",
+        "4": "poloniex",
+        "5": "bitmex",
+        "6": "odax",
+        "7": "huobipro",
+        "8": "okex",
+        "9": "hitbtc",
+        "10": "kucoin"
+      },
     };
   },
   methods: {
@@ -69,19 +81,22 @@ export default {
         api_secret: this.api_secret_key
       }
       // verify api key is valid before updating for user
-      axios.get('http://35.235.83.44:5000/trade_history', {
-        params: {
-          exchange_id: this.selectedExchange.id,
+      console.log(        {
+          exchange_id: this.idToExchange[this.selectedExchange.id],
+          api_key: this.api_key,
+          secret: this.api_secret_key
+        })
+      axios.post('http://35.235.83.44:5000/verify_apikey', 
+        {
+          exchange_id: this.idToExchange[this.selectedExchange.id],
           api_key: this.api_key,
           secret: this.api_secret_key
         }
-      })
-      .then((res) => {
-        console.log(res, '--------')
-        if (res.data) {
+      ).then((res) => {
+        if (res.data.status !== 'Error') {
           this.$store.dispatch("updateExchangeForUser", payload);
-          this.$emit('clearExchange');
         }
+        this.$emit('clearExchange');
       })
       .catch((err) => {
         console.log(err)

@@ -132,7 +132,16 @@ import { mapGetters } from "vuex";
         if (type === 'enabled') {
           updatedSelected[idx][type] = e
         } else if (type === 'eid') {
-          updatedSelected[idx][type] = Object.keys(this.idToExchange).find(id => this.idToExchange[id] === e).toLowerCase();
+          let id = Object.keys(this.idToExchange).find(id => this.idToExchange[id] === e);
+          updatedSelected[idx][type] = id
+          axios.post('http://35.235.83.44:5000/symbols_by_exchange?exchange_id=' + this.idToExchange[id].toLowerCase())
+          .then((res) => {
+            console.log(res)
+            this.currencies = res.data
+          })
+          .catch((err) => {
+            console.log(err)
+          })
         } else {
           updatedSelected[idx][type] = e.target.value
         }

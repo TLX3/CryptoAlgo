@@ -54,7 +54,7 @@
 import { mapGetters } from "vuex";
 import axios from 'axios'
 import ExchangeSelection from './ExchangeSelection'
-import SelectPrebuiltAlgorithm from './SelectPrebuiltAlgorithm'
+import SelectPrebuiltAlgorithm from './PrebuiltAlgorithms'
 import CreateAlgorithm from './CreateAlgorithm'
 import Run from './Run'
 
