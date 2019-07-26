@@ -33,7 +33,7 @@ const actions = {
         let headers = {
             'Content-Type': 'application/json'
         }
-        axios.post('http://35.235.83.44:5000/login', payload, {headers: headers})
+        axios.post(process.env.VUE_APP_API_SERVER + 'login', payload, {headers: headers})
             .then(res => {
                 Nprogress.done();
                 console.log(res)
@@ -56,7 +56,7 @@ const actions = {
     signupUser(context, payload) {
         context.commit('signUpUser');
         console.log(payload)
-        axios.post('http://35.235.83.44:5000/user', payload)
+        axios.post(process.env.VUE_APP_API_SERVER + 'user', payload)
             .then((res) => {
                 console.log(res)
                 Nprogress.done();

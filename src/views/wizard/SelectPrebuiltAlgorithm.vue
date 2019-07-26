@@ -108,7 +108,7 @@ import { mapGetters } from "vuex";
       images: ['https://cdn.vuetifyjs.com/images/cards/house.jpg', 'https://cdn.vuetifyjs.com/images/cards/road.jpg', 'https://cdn.vuetifyjs.com/images/cards/plane.jpg']
     }),
     mounted () {
-      axios.get('http://35.235.83.44:5000/algorithms')
+      axios.get(process.env.VUE_APP_API_SERVER + 'algorithms')
       .then((res) => {
         this.algorithms = res.data
       })
@@ -134,7 +134,7 @@ import { mapGetters } from "vuex";
         } else if (type === 'eid') {
           let id = Object.keys(this.idToExchange).find(id => this.idToExchange[id] === e);
           updatedSelected[idx][type] = id
-          axios.post('http://35.235.83.44:5000/symbols_by_exchange?exchange_id=' + this.idToExchange[id].toLowerCase())
+          axios.post(process.env.VUE_APP_API_SERVER + 'symbols_by_exchange?exchange_id=' + this.idToExchange[id].toLowerCase())
           .then((res) => {
             console.log(res)
             this.currencies = res.data

@@ -51,6 +51,19 @@ import './lib/VuelyCss'
 // messages
 import messages from './lang';
 
+//charting
+import Highcharts from 'highcharts'
+import highchartsMore from 'highcharts/highcharts-more'
+import VueHighcharts from 'vue-highcharts'
+import loadStock from 'highcharts/modules/stock.js'
+import stockTheme from './stocktheme'
+
+loadStock(Highcharts)
+highchartsMore(Highcharts)
+Highcharts.theme = stockTheme
+Highcharts.setOptions(Highcharts.theme)
+Vue.use(VueHighcharts, {Highcharts})
+
 // navigation guards before each
 router.beforeEach((to, from, next) => {
 	Nprogress.start()

@@ -7,10 +7,10 @@ export const menus = {
 			active: true,
 			items: [
 				{ action: 'zmdi-time-restore', title: 'message.tradehistory', path: '/dashboard/tradeHistory', exact: true },
+				{ action: 'zmdi-time-restore', title:'message.mybots', path: '/dashboard/myBots', exact: true},
+				{ action: 'zmdi-time-restore', title:'message.exchanges', path: '/dashboard/exchanges', exact: true},
 				{ action: 'zmdi-settings', title: 'message.config', path: '/dashboard/wizard', exact: true },
 				{ action: 'zmdi-trending-up', title: 'Algorithm Designer', path: '/dashboard/stats', exact: true },
-				{ action: 'zmdi-check-all', title: 'Backtesting', path: '/dashboard/backtesting', exact: true },
-				{ action: 'zmdi-chart', title: 'Trading', path: '/dashboard/web-analytics', exact: true },
 			]
 		}
 	],

@@ -1,4 +1,4 @@
-# CryptoAlgo
+# ProfitsData
 
 ## Project setup
 ```

@@ -45,7 +45,7 @@ import axios from "axios";
     ...mapGetters(["getUID"])
     },
     mounted () {
-      axios.get('http://35.235.83.44:5000/trade_history', {
+      axios.get(process.env.VUE_APP_API_SERVER + 'trade_history', {
         params: {
           uid: this.getUID
         }

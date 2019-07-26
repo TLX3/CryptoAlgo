@@ -4302,6 +4302,11 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
+highcharts@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-7.1.2.tgz#f337e75cf0614f58f87fb28fbab48e1096265b5d"
+  integrity sha512-diSTVxWKefQzShi22gaV63pdrIFlQAsTGe3f328Ur7cqBoYFvHMtiMP+q+VOFdM2mdGVtlUR0QQSxj62LLsPpg==
+
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -9223,6 +9228,11 @@ vue-fullscreen@^2.1.3:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/vue-fullscreen/-/vue-fullscreen-2.1.4.tgz#164ab2df6172b848ed694bd919ebcb781c63ddff"
   integrity sha512-jJczOE7zK9k/y6gxoGpZt5F10VaEkuUWbsyioHDIVfY4gIdqJDpRLu8Vz8RuQx9AMItwK+gBU8KrcXvMmFLzzA==
+
+vue-highcharts@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/vue-highcharts/-/vue-highcharts-0.1.0.tgz#ee71a4320535b07fdc4269a8aa50b9194538e762"
+  integrity sha512-P0474D2s6P1ww5c/KbMN4iG8IOp7L1nWgjQwRJvKsq2yCNaeywg49/EHa2zHOKbS1MFxOXkRN2Vu1OSBc+gFYQ==
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.1"

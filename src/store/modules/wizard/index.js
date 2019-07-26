@@ -40,8 +40,10 @@ const actions = {
         "enabled": enabled,
         "uid": Number(uid)
       }
-      axios.post('http://35.235.83.44:5000/assignment/', json)
-      .then(() => {
+      console.log(json)
+      axios.post(process.env.VUE_APP_API_SERVER + 'assignment/', json)
+      .then((res) => {
+          console.log(res)
           console.log("Algorithm added for user");
       })
       .catch((error) => {
@@ -52,7 +54,7 @@ const actions = {
         const { uid, eid, api_key, api_secret } = payload;
         // POST/PUT/DELETE /exchange_key params - INT uid, INT eid, STR api_key, STR api_secret
         console.log(payload, "HERE")
-        axios.post('http://35.235.83.44:5000/exchange_key', { uid, eid, api_key, api_secret })
+        axios.post(process.env.VUE_APP_API_SERVER + 'exchange_key', { uid, eid, api_key, api_secret })
         .then((res) => {
             console.log("Exchange information updated for user", res);
             commit('setUserExchanges', [eid ,...state.userExchanges]);
@@ -63,7 +65,7 @@ const actions = {
     },
     getExistingUserExchanges (context, uid) {
       // GET user's exchange keys
-      axios.get('http://35.235.83.44:5000/exchange_key', {
+      axios.get(process.env.VUE_APP_API_SERVER + 'exchange_key', {
         params: {
           uid: uid
         }
@@ -77,7 +79,7 @@ const actions = {
     },
     getExistingUserAlgorithms (context, uid) {
       // Get user's assigned algorithms
-      axios.get('http://35.235.83.44:5000/assignment', {
+      axios.get(process.env.VUE_APP_API_SERVER + 'assignment', {
         params: {
           uid: uid
         }

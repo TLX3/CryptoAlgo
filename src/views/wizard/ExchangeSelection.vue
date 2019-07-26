@@ -1,15 +1,14 @@
 <template>
   <div>
       <v-flex xs12>
-        <v-card flat class='py-2'>
-          <v-card-title primary-title>
+        <v-card flat>
+          <v-card-title style='background-color: #727891; color: #fff;' primary-title>
             <div>
               <div style='font-size: 28px;'>Available Exchanges</div>
               <span>Select the exchanges that you want your account to connect to</span>
             </div>
           </v-card-title>
-          <v-divider></v-divider>
-            <v-layout wrap row>
+            <v-layout style='background-color: #727891;' wrap row>
               <v-flex v-for="exchange in exchanges" :key="exchange.name" xs2 class='ma-2'>
                 <v-card>
                   <v-img
@@ -55,7 +54,7 @@ export default {
   },
   mounted () {
     // GET exchanges
-    axios.get('http://35.235.83.44:5000/exchanges')
+    axios.get(process.env.VUE_APP_API_SERVER + 'exchanges')
       .then((res) => {
         console.log(res.data)
         this.exchanges = res.data
@@ -78,3 +77,6 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+  
+</style>

@@ -4,6 +4,8 @@ export default {
   support: 'Support',
   core: 'Core',
   tradehistory: 'Trade History',
+  mybots: 'My Bots',
+  exchanges: 'Exchanges',
   stats: 'Stats',
   charts: 'Charts',
   backtesting: 'Backtesting',

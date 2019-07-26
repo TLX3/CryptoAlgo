@@ -10,9 +10,7 @@
 			<!-- App Main Content -->
 			<v-content>
 				<!-- App Router -->
-				<transition name="router-anim" :enter-active-class="`animated ${selectedRouterAnimation}`">
 					<router-view></router-view>
-				</transition>
 			</v-content>
 			<!-- User Tour -->
 			<tour></tour>

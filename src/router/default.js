@@ -1,12 +1,11 @@
-import HorizontalLayout from 'Container/HorizontalLayout'
+import Full from 'Container/Full'
 
 // dashboard components
 const TradingHistory = () => import('Views/tradeHistory/TradingHistory');
-const WebAnalytics = () => import('Views/dashboard/WebAnalytics');
 const Stats = () => import('Views/dashboard/Stats');
-const Backtesting = () => import('Views/dashboard/Backtesting');
 const Marketplace = () => import('Views/dashboard/Marketplace');
-
+const MyBots = () => import('Views/bots/MyBots');
+const Management = () => import('Views/exchanges/Management')
 // users views
 const UserProfile = () => import('Views/users/UserProfile');
 const UsersList = () => import('Views/users/UsersList');
@@ -15,7 +14,7 @@ const Wizard = () => import('Views/wizard/Wizard');
 
 export default {
    path: '/',
-   component: HorizontalLayout,
+   component: Full,
    redirect: '/dashboard/tradeHistory',
    children: [
       {
@@ -28,12 +27,22 @@ export default {
          }
       },
       {
-         path: '/dashboard/web-analytics',
-         component: WebAnalytics,
-         meta: {
-            requiresAuth: true,
-            title: 'message.charts',
-         }
+        path: '/dashboard/myBots',
+        component: MyBots,
+        meta: {
+          requiresAuth: true,
+          title: 'message.mybots',
+          breadcrumb: 'My Bots'
+        }
+      },
+      {
+        path: '/dashboard/exchanges',
+        component: Management,
+        meta: {
+          requiresAuth: true,
+          title: 'message.exchanges',
+          breadcrumb: 'My Exchanges'
+        }
       },
       {
         path: '/dashboard/stats',
@@ -42,15 +51,6 @@ export default {
            requiresAuth: true,
            title: 'message.stats',
            breadcrumb: 'Stats'
-        }
-     },
-     {
-        path: '/dashboard/backtesting',
-        component: Backtesting,
-        meta: {
-           requiresAuth: true,
-           title: 'message.backtesting',
-           breadcrumb: 'Backtesting'
         }
      },
      {

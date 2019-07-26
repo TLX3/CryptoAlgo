@@ -141,7 +141,7 @@
        <section>
         <v-parallax :src="imageLink.social_cover" height="380">
           <v-layout column align-center justify-center>
-            <div class="headline white--text text-xs-center">We are dropping cool news and opportunities on socials</div>
+            <div class="headline white--text text-xs-center"></div>
           </v-layout>
           <v-layout justify-space-around justify-center>
               <v-icon x-large dark>fab fa-facebook-f</v-icon>
@@ -176,7 +176,7 @@
                   <div class="headline">We are hiring</div>
                 </v-card-title>
                 <v-card-text>
-                  Are you a creative person? Do you like techy stuff? Complete the email form by writing your skills and interests
+                  Work on the latest technologies and make an impact.
                 </v-card-text>
               </v-card>
             </v-flex>
