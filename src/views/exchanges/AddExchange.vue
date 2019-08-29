@@ -73,13 +73,6 @@ export default {
       this.$emit('clearExchange');
     },
     submitAPIKey () {
-      let payload = 
-      { 
-        uid: this.getUID,
-        eid: this.selectedExchange.id,
-        api_key: this.api_key,
-        api_secret: this.api_secret_key
-      }
       // verify api key is valid before updating for user
       console.log(        {
           exchange_id: this.idToExchange[this.selectedExchange.id],
@@ -93,7 +86,13 @@ export default {
           secret: this.api_secret_key
         }
       ).then((res) => {
-        console.log(res)
+        let payload = { 
+          uid: this.getUID,
+          eid: this.selectedExchange.id,
+          api_key: this.api_key,
+          api_secret: this.api_secret_key
+        }
+        console.log(payload, '-------')
         if (res.data.status !== 'Error') {
           this.$store.dispatch("updateExchangeForUser", payload);
         }

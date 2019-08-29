@@ -101,7 +101,7 @@ import { mapGetters } from "vuex";
     }),
     mounted () {
       axios.get(process.env.VUE_APP_API_SERVER + 'algorithms')
-      .then((res) => {
+      .then((res) => {  
         this.algorithms = res.data
       })
       .catch((err) => {
@@ -112,14 +112,14 @@ import { mapGetters } from "vuex";
       ...mapGetters(["getUID", "getUserInfo", "getUserExchanges", "getUserAlgorithms", "getSelectedAlgorithms"])
     },
     methods: {
-      updateAlgoSettings (e, type, idx) {
+      updateAlgoSettings (e, type) {
         // update selected algorithm settings
         let updatedSelected = this.getSelectedAlgorithms
         if (type === 'enabled') {
-          updatedSelected[idx][type] = e
+          updatedSelected[0][type] = e
         } else if (type === 'eid') {
           let id = Object.keys(this.idToExchange).find(id => this.idToExchange[id] === e);
-          updatedSelected[idx][type] = id
+          updatedSelected[0][type] = id
           axios.get(process.env.VUE_APP_API_SERVER + 'symbols_by_exchange',
           { params: {
             exchange_id: this.idToExchange[id].toLowerCase(),
@@ -132,7 +132,7 @@ import { mapGetters } from "vuex";
             console.log(err)
           })
         } else {
-          updatedSelected[idx][type] = e
+          updatedSelected[0][type] = e
         }
         this.$store.dispatch('setSelectedAlgorithms', updatedSelected)
       },

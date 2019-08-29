@@ -1,6 +1,12 @@
 <template>
     <div>
         <Highstock :options="chartConfig" />
+        <v-btn
+            color="warning"
+            @click="$emit('stopBacktesting')"
+        >
+            Stop Backtesting
+        </v-btn>
     </div>
 </template>
 <script>
