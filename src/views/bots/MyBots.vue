@@ -5,7 +5,7 @@
       <v-subheader>
         <div>My configured Algorithms</div>
         <v-spacer />
-        <v-btn color='blue-grey'>Add new algorithm</v-btn>
+        <v-btn color='blue-grey' @click='showAddNewAlgorithm = true'>Add new algorithm</v-btn>
       </v-subheader>
 
       <v-list-tile
@@ -78,16 +78,19 @@
     </v-list>
   </v-card>
   <RuntimeSettings v-if='selectedItem' :commonParameters='commonParameters' :algorithmIdToDetails='algorithmIdToDetails' :selectedItem='selectedItem' :dialog='dialog' @closeDialog='dialog = false'/>
+  <AddNewAlgorithm v-if='showAddNewAlgorithm' :showAddNewAlgorithm='showAddNewAlgorithm' @closeDialog='showAddNewAlgorithm = false'/>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import axios from 'axios'
 import RuntimeSettings from './RuntimeSettings'
+import AddNewAlgorithm from './AddNewAlgorithm'
 
 export default {
   data () {
     return {
+      showAddNewAlgorithm: false,
       currentSettings: {},
       usersAlgorithms: [],
       prebuiltAlgorithms: [],
@@ -104,7 +107,8 @@ export default {
     }
   },
   components: {
-    RuntimeSettings
+    RuntimeSettings,
+    AddNewAlgorithm
   },
   computed: {
     ...mapGetters(["getUID", "getUserInfo"])

@@ -109,7 +109,7 @@ const mutations = {
     },
     signUpUserSuccess(state, token) {
         state.token = localStorage.setItem('token', token);
-        router.push("/dashboard/wizard");
+        router.push("/dashboard/exchanges");
         Vue.notify({
             group: 'loggedIn',
             type: 'success',

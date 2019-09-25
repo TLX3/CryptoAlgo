@@ -2,170 +2,174 @@
   <div>
     <v-dialog
       v-model="dialog"
-      max-width="70vw"
+      max-width="50vw"
       max-height="50vh"
       dark
     >
       <v-card>
-        <v-card-title v-if='isBacktesting' class="headline">Live/Backtesting {{algorithmIdToDetails[selectedItem.aid].name}}</v-card-title>
-        <v-card-title v-else class="headline">Runtime settings for {{algorithmIdToDetails[selectedItem.aid].name.split('_').join(' ')}}</v-card-title>
+        <v-card-title v-if='isBacktesting' class="headline">Live/Backtesting {{algorithmIdToDetails[selectedItem.aid].name}} <v-spacer />  <v-icon @click='$emit("closeDialog")'>close</v-icon></v-card-title>
+        <v-card-title v-else class="headline">Runtime settings for {{algorithmIdToDetails[selectedItem.aid].name.split('_').join(' ')}} <v-spacer />  <v-icon @click='$emit("closeDialog")'>close</v-icon></v-card-title>
         <v-divider color='#fff'/>
         <v-card-text>
           <StreamChart v-if='isBacktesting' @stopBacktesting='isBacktesting = false'/>
-          <v-form
-            v-else
-            ref="form"
-            class='form-fields' 
-          >
-            <div class='row'>
-            <div v-for='(param, i) in commonParameters' :key='param.parameter_name'>
-              <v-radio-group v-if='param.parameter_name === "execution_mode"'  :label="param.parameter_name.split('_').join(' ').toUpperCase()" row @change='updateFormValue($event, param.parameter_name)' color='blue-grey'>
-                <v-radio v-for='(choice, j) in param.choices' :key='choice' :label="choice" :value='choice' color='blue-grey'></v-radio>
-              </v-radio-group>
-              <v-select
-                v-else-if='param.parameter_name === "exchange_name"'
-                :items="getUserExchanges.map(ex => idToExchange[ex.eid])"
-                label="Exchange"
-                @change='updateFormValue($event, param.parameter_name)'
-                item-text='eid'
-              ></v-select>
-              <v-select
-                v-else-if='param.parameter_name === "quote_currency"'
-                :items="currencies"
-                label="Currency"
-                @change='updateFormValue($event, param.parameter_name)'
-              ></v-select>
+          <v-stepper v-model="e1">
+            <v-stepper-header>
+              <v-stepper-step :complete="e1 > 1" step="1">Common Parameters</v-stepper-step>
+              <v-divider></v-divider>
+              <v-stepper-step :complete="e1 > 2" step="2">Specific Parameters</v-stepper-step>
+            </v-stepper-header>
 
-              <v-radio-group v-else-if='param.choices'  :label="param.parameter_name.split('_').join(' ').toUpperCase()" row @change='updateFormValue($event, param.parameter_name)' color='blue-grey'>
-                <v-radio v-for='(choice, j) in param.choices' :key='choice' :label="choice" :value='choice' color='blue-grey'></v-radio>
-              </v-radio-group>
-              <v-text-field
-                v-else-if='param.type === "string"'
-                @input='updateFormValue($event, param.parameter_name)'
-                :label="param.parameter_name.split('_').join(' ').toUpperCase()"
-                :required="param.required"
-              ></v-text-field>
-              <v-checkbox
-                v-else-if='param.type === "boolean"'
-                color='blue-grey'
-                @change='updateFormValue($event, param.parameter_name)'
-                :label="param.parameter_name.split('_').join(' ').toUpperCase()"
-                :required="param.required"
-              ></v-checkbox>
-              <v-text-field
-                v-else-if='param.type === "float"'
-                @input='updateFormValue($event, param.parameter_name)'
-                :label="param.parameter_name.split('_').join(' ').toUpperCase()"
-                :required="param.required"
-                single-line
-                type="number"
-              ></v-text-field>
-              <v-menu
-                v-else-if='formValues["execution_mode"] === "Backtest"'
-                lazy
-                :close-on-content-click="false"
-                transition="scale-transition"
-                offset-y
-                full-width
-                :nudge-right="40"
-                max-width="290px"
-                min-width="290px"
-              >
-                <v-text-field
-                  slot="activator"
-                  :label="param.parameter_name.split('_').join(' ').toUpperCase()"
-                  :value='formValues[param.parameter_name]'
-                  prepend-icon="event"
-                  readonly
-                ></v-text-field>
-                <v-date-picker @input='updateFormValue($event, param.parameter_name)' no-title scrollable actions>
-                  <template scope="{ save, cancel }">
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-                      <v-btn flat color="primary" @click="save">OK</v-btn>
-                    </v-card-actions>
-                  </template>
-                </v-date-picker>
-              </v-menu>
-            </div>
-            </div>
+            <v-stepper-items>
+              <v-stepper-content step="1">
+                <div v-for='(param, i) in commonParameters' :key='param.parameter_name'>
+                  <v-radio-group v-if='param.parameter_name === "execution_mode"'  :label="param.parameter_name.split('_').join(' ').toUpperCase()" row @change='updateFormValue($event, param.parameter_name)' color='blue-grey'>
+                    <v-radio v-for='(choice, j) in param.choices' :key='choice' :label="choice" :value='choice' color='blue-grey'></v-radio>
+                  </v-radio-group>
+                  <v-select
+                    v-else-if='param.parameter_name === "exchange_name"'
+                    :items="getUserExchanges.map(ex => idToExchange[ex.eid])"
+                    label="Exchange"
+                    @change='updateFormValue($event, param.parameter_name)'
+                    item-text='eid'
+                  ></v-select>
+                  <v-select
+                    v-else-if='param.parameter_name === "quote_currency"'
+                    :items="currencies"
+                    label="Currency"
+                    @change='updateFormValue($event, param.parameter_name)'
+                  ></v-select>
 
-        <v-divider color='grey'/>
+                  <v-radio-group v-else-if='param.choices'  :label="param.parameter_name.split('_').join(' ').toUpperCase()" row @change='updateFormValue($event, param.parameter_name)' color='blue-grey'>
+                    <v-radio v-for='(choice, j) in param.choices' :key='choice' :label="choice" :value='choice' color='blue-grey'></v-radio>
+                  </v-radio-group>
+                  <v-text-field
+                    v-else-if='param.type === "string"'
+                    @input='updateFormValue($event, param.parameter_name)'
+                    :label="param.parameter_name.split('_').join(' ').toUpperCase()"
+                    :required="param.required"
+                  ></v-text-field>
+                  <v-checkbox
+                    v-else-if='param.type === "boolean"'
+                    color='blue-grey'
+                    @change='updateFormValue($event, param.parameter_name)'
+                    :label="param.parameter_name.split('_').join(' ').toUpperCase()"
+                    :required="param.required"
+                  ></v-checkbox>
+                  <v-text-field
+                    v-else-if='param.type === "float"'
+                    @input='updateFormValue($event, param.parameter_name)'
+                    :label="param.parameter_name.split('_').join(' ').toUpperCase()"
+                    :required="param.required"
+                    single-line
+                    type="number"
+                  ></v-text-field>
+                  <v-menu
+                    v-else-if='formValues["execution_mode"] === "Backtest"'
+                    lazy
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    :nudge-right="40"
+                    max-width="290px"
+                    min-width="290px"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      :label="param.parameter_name.split('_').join(' ').toUpperCase()"
+                      :value='formValues[param.parameter_name]'
+                      prepend-icon="event"
+                      readonly
+                    ></v-text-field>
+                    <v-date-picker @input='updateFormValue($event, param.parameter_name)' no-title scrollable actions>
+                      <template scope="{ save, cancel }">
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
+                          <v-btn flat color="primary" @click="save">OK</v-btn>
+                        </v-card-actions>
+                      </template>
+                    </v-date-picker>
+                  </v-menu>
+                </div>
 
-            <div class='row'>
-            <div v-for='(param, i) in algorithmIdToDetails[selectedItem.aid].parameters' :key='param.parameter_name'>
-              <v-radio-group v-if='param.choices'  :label="param.parameter_name.split('_').join(' ')" row @input='updateFormValue($event, param.parameter_name)' color='blue-grey'>
-                <v-radio v-for='(choice, j) in param.choices' :key='choice' :label="choice" :value='choice' color='blue-grey'></v-radio>
-              </v-radio-group>
-              <v-text-field
-                v-else-if='param.type === "string"'
-                @input='updateFormValue($event, param.parameter_name)'
-                :label="param.parameter_name.split('_').join(' ').toUpperCase()"
-                :required="param.required"
-              ></v-text-field>
-              <v-checkbox
-                v-else-if='param.type === "boolean"'
-                color='blue-grey'
-                @change='updateFormValue($event, param.parameter_name)'
-                :label="param.parameter_name.split('_').join(' ').toUpperCase()"
-                :required="param.required"
-              ></v-checkbox>
-              <v-menu
-                v-else-if='param.type === "date"'
-                lazy
-                :close-on-content-click="false"
-                transition="scale-transition"
-                offset-y
-                full-width
-                :nudge-right="40"
-                max-width="290px"
-                min-width="290px"
-              >
-                <v-text-field
-                  slot="activator"
-                  :label="param.parameter_name.split('_').join(' ').toUpperCase()"
-                  :value='formValues[param.parameter_name]'
-                  prepend-icon="event"
-                  readonly
-                ></v-text-field>
-                <v-date-picker @input='updateFormValue($event, param.parameter_name)' no-title scrollable actions>
-                  <template scope="{ save, cancel }">
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-                      <v-btn flat color="primary" @click="save">OK</v-btn>
-                    </v-card-actions>
-                  </template>
-                </v-date-picker>
-              </v-menu>
-              <v-text-field
-                v-else
-                @input='updateFormValue($event, param.parameter_name)'
-                :label="param.parameter_name.split('_').join(' ').toUpperCase()"
-                :required="param.required"
-                single-line
-                type="number"
-              ></v-text-field>
-            </div>
-            </div>
+                <v-btn
+                  color="primary"
+                  @click="e1 = 2"
+                >
+                  Continue
+                </v-btn>
+                
+              </v-stepper-content>
 
-            <div class='algo-btns'>
-              <v-btn
-                color="success"
-                class="mr-4"
-                @click="startAlgo()"
-              >
-                Start Algorithm
-              </v-btn>
-              <v-btn
-              color="grey"
-              @click="$emit('closeDialog')"
-              >
-                Close
-              </v-btn>
-            </div>
-          </v-form>
+              <v-stepper-content step="2">
+                <div v-for='(param, i) in algorithmIdToDetails[selectedItem.aid].parameters' :key='param.parameter_name'>
+                  <v-radio-group v-if='param.choices'  :label="param.parameter_name.split('_').join(' ')" row @input='updateFormValue($event, param.parameter_name)' color='blue-grey'>
+                    <v-radio v-for='(choice, j) in param.choices' :key='choice' :label="choice" :value='choice' color='blue-grey'></v-radio>
+                  </v-radio-group>
+                  <v-text-field
+                    v-else-if='param.type === "string"'
+                    @input='updateFormValue($event, param.parameter_name)'
+                    :label="param.parameter_name.split('_').join(' ').toUpperCase()"
+                    :required="param.required"
+                  ></v-text-field>
+                  <v-checkbox
+                    v-else-if='param.type === "boolean"'
+                    color='blue-grey'
+                    @change='updateFormValue($event, param.parameter_name)'
+                    :label="param.parameter_name.split('_').join(' ').toUpperCase()"
+                    :required="param.required"
+                  ></v-checkbox>
+                  <v-menu
+                    v-else-if='param.type === "date"'
+                    lazy
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    :nudge-right="40"
+                    max-width="290px"
+                    min-width="290px"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      :label="param.parameter_name.split('_').join(' ').toUpperCase()"
+                      :value='formValues[param.parameter_name]'
+                      prepend-icon="event"
+                      readonly
+                    ></v-text-field>
+                    <v-date-picker @input='updateFormValue($event, param.parameter_name)' no-title scrollable actions>
+                      <template scope="{ save, cancel }">
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
+                          <v-btn flat color="primary" @click="save">OK</v-btn>
+                        </v-card-actions>
+                      </template>
+                    </v-date-picker>
+                  </v-menu>
+                  <v-text-field
+                    v-else
+                    @input='updateFormValue($event, param.parameter_name)'
+                    :label="param.parameter_name.split('_').join(' ').toUpperCase()"
+                    :required="param.required"
+                    single-line
+                    type="number"
+                  ></v-text-field>
+                </div>
+
+                <v-btn
+                  color="success"
+                  class="mr-4"
+                  @click="startAlgo()"
+                >
+                  Start Algorithm
+                </v-btn>
+                <v-btn text @click="e1 = 1">Back</v-btn>
+              </v-stepper-content>
+            </v-stepper-items>
+          </v-stepper>
+
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -183,6 +187,7 @@ export default {
   props: ['dialog', 'selectedItem', 'algorithmIdToDetails', 'commonParameters'],
   data () {
     return {
+      e1: 0,
       currencies: [],
       idToExchange: {
         "1": "Binance",
@@ -197,6 +202,7 @@ export default {
         "10": "Kucoin"
       },
       isBacktesting: false,
+      simulateOrders: false,
       valid: true,
       name: '',
       nameRules: [
@@ -217,7 +223,9 @@ export default {
       ],
       checkbox: false,
       menu: false,
-      formValues: {}
+      formValues: {},
+      startDate: null,
+      endDate: null
     }
   },
   computed: {
@@ -229,18 +237,25 @@ export default {
           val = val.toLowerCase()
           this.getCurrenciesByExchange(val)
         }
+        if (paramName === "simulate_orders") {
+          this.simulateOrders = val
+        }
+        if (paramName === "start_date") {
+          this.startDate = val
+        }
+        if (paramName === "end_date") {
+          this.endDate = val
+        }
         this.formValues[paramName] = val
         this.$forceUpdate()
         console.log(paramName, this.formValues[paramName])
       },
       getCurrenciesByExchange (val) {
-        console.log(val, '11111')
         axios.get(process.env.VUE_APP_API_SERVER + 'symbols_by_exchange',
         { params: {
           exchange_id: val,
         } })
         .then((res) => {
-          console.log(res, '22222')
           this.currencies = res.data
         })
         .catch((err) => {
@@ -259,23 +274,79 @@ export default {
         this.$refs.form.resetValidation()
       },
       startAlgo () {
-
+        let formFields = Object.keys(this.formValues)
+        // check that each of the common parameters has been provided
+        let filledAllCommonParameters = this.commonParameters.every((param) => {
+          return formFields.includes(param.parameter_name)
+        })
+        // check that each specific parameter has been provided
+        let filledAllSpecificParamters = this.algorithmIdToDetails[this.selectedItem.aid].parameters.every((param) => {
+          return formFields.includes(param.parameter_name)
+        })
+        if (!filledAllSpecificParamters && !filledAllCommonParameters) {
+          this.$notify({
+            group: 'loggedIn',
+            type: 'error',
+            text: 'All parameters for algorithm must be provided'
+          })
+        } else {
+          // format specific parameters and set values for json
+          let specificParameters = this.algorithmIdToDetails[this.selectedItem.aid].parameters
+          let args = {}
+          specificParameters.forEach((param) => {
+            if (['float', 'integer', 'number'].includes(param.type)) args[param.parameter_name] = Number(this.formValues[param.parameter_name])
+            else args[param.parameter_name] = this.formValues[param.parameter_name]
+          })
+          axios.get(process.env.VUE_APP_API_SERVER + 'exchange_key?uid=' + this.getUID)
+          .then((res) => {
+            // set relevant exchange information needed to execute algorithm
+            let usersExchanges = res.data
+            let exchangeKey = null
+            let exchangeId = null
+            usersExchanges.forEach((exchange) => {
+              if (this.formValues.exchange_name === this.idToExchange[exchange.eid].toLowerCase()) {
+                exchangeKey = exchange.api_key
+                exchangeId = exchange.eid
+              }
+            })
+            // add unique identifier for algorithm and user
+            let uniqueIdentifier = this.getUID + '_' + this.formValues.exchange_name + '_' + this.algorithmIdToDetails[this.selectedItem.aid].name + '_' + Math.round((new Date()).getTime() / 1000)
+            let json = {
+              'task': this.algorithmIdToDetails[this.selectedItem.aid].name,
+              'mode': this.isBacktesting ? 'backtest' : 'live',
+              'capital_base': Number(this.formValues.capital_base),
+              'exchange_name': this.formValues.exchange_name,
+              'alog_namespace': uniqueIdentifier,
+              'quote_currency': this.formValues.quote_currency,
+              'simulate_orders': this.simulateOrders,
+              'start_date': this.startDate,
+              'end_date': this.endDate,
+              'auth_aliases': {
+                'user_id': Number(this.getUID),
+                'exchange_id': Number(exchangeId),
+                'exchange_key': exchangeKey
+              },
+              'args': args
+            }
+            console.log(json)
+            // axios.post(process.env.VUE_APP_JOB_SERVER + 'api/v1/trading_tasks', json)
+            // .then((res) => {
+            //   console.log(res)
+            // })
+            // .catch((err) => {
+            //   console.log(err)
+            // })
+            })
+            .catch((err) => {
+              
+            })
+        }
       }
   }
 }
 </script>
 
 <style lang="scss">
-  .form-fields {
-    display: grid;
-    grid-template-rows: 1fr 50px 1fr;
-    grid-gap: 20px;
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 20px;
-    }
-  }
   .algo-btns {
     display: flex;
 
