@@ -85,6 +85,7 @@ const actions = {
         }
       })
         .then((res) => {
+          console.log(res, '--------')
           context.commit('setUserAlgorithms', res.data);
         })
         .catch((err) => {

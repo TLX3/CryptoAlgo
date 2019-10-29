@@ -5,8 +5,8 @@
 		</v-btn>
 		<div class="dropdown-content">
          <div class="dropdown-top white--text primary">
-            <span class="white--text fs-14 fw-bold d-block">Tseten Lama</span>
-            <span class="d-block fs-12 fw-light">info@example.com</span>
+            <span class="white--text fs-14 fw-bold d-block">{{getUID}}</span>
+            <span class="d-block fs-12 fw-light">info@</span>
          </div>
          <v-list class="dropdown-list">
             <template v-for="userLink in userLinks" v-if="userLink.id !== 4">
@@ -27,7 +27,7 @@
 </template>
 <script>
    import { getCurrentAppLayout } from "Helpers/helpers";
-
+   import { mapGetters } from 'vuex'
    export default{
       data() {
          return {
@@ -58,6 +58,9 @@
             ]
          }
       },
+      computed: {
+      ...mapGetters(["getUID", "getUserInfo"])
+      },      
       methods: {
          logoutUser() {
             this.$store.dispatch("logOut", this.$router);

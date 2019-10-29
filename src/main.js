@@ -25,7 +25,7 @@ import Croppa from 'vue-croppa';
 import { VueReCaptcha } from 'vue-recaptcha-v3'
 
 // For more options see below
-Vue.use(VueReCaptcha, { siteKey: '6Ldob5kUAAAAAEwEDKrKDqG8PGPrDnF8-xL6Whwa' })
+Vue.use(VueReCaptcha, { siteKey: '6LdL9L8UAAAAAKWoc1fxTMoI01sJrw1u4pQCK_Zm' })
 
 // global components
 import GlobalComponents from './globalComponents'
@@ -68,7 +68,7 @@ Vue.use(VueHighcharts, {Highcharts})
 router.beforeEach((to, from, next) => {
 	Nprogress.start()
 	// verify user has valid auth token otherwise reroute to login page
-	if (to.path !== '/login' && to.path !== '/sign-up' && to.path !== '/landing' &&
+	if (to.path !== '/confirm-email' && to.path !== '/login' && to.path !== '/sign-up' && to.path !== '/landing' &&
 		(!localStorage.getItem('token') || !localStorage.getItem('uid'))) {
 			next('/landing')
 			Nprogress.done()

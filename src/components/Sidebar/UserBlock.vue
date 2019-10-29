@@ -1,10 +1,10 @@
 <template>
    <v-list-tile class="sidebar-profile">
 		<v-list-tile-avatar>
-			<img src="/static/avatars/user-13.jpg" alt="avatar" height="40" width="40" class="img-responsive" />
+			<img src="/static/avatars/icon.jpg" alt="avatar" height="40" width="40" class="img-responsive" />
 		</v-list-tile-avatar>
 		<v-list-tile-content class="ml-3">
-			<v-list-tile-title><span>Tseten Lama</span></v-list-tile-title>
+			<v-list-tile-title><span>{{getUserInfo}}</span></v-list-tile-title>
 		</v-list-tile-content>
 		<v-menu 
 			bottom
@@ -20,8 +20,8 @@
 			</v-btn>
 			<div class="dropdown-content">
 				<div class="dropdown-top white--text primary">
-					<span class="white--text fs-14 fw-bold d-block">Tseten Lama</span>
-					<span class="d-block fs-12 fw-light">info@example.com</span>
+					<span class="white--text fs-14 fw-bold d-block">{{getUserInfo}}</span>
+					<span class="d-block fs-12 fw-light">User ID: {{getUID}}</span>
 				</div>
 				<v-list class="dropdown-list">
 					<template v-for="userLink in userLinks" v-if="userLink.id !== 4">
@@ -44,6 +44,7 @@
 
 <script>
 import { getCurrentAppLayout } from "Helpers/helpers";
+import { mapGetters } from 'vuex';
 
 export default {
 	data() {
@@ -75,6 +76,9 @@ export default {
 			]
 		}
 	},
+	computed: {
+    ...mapGetters(["getUID", "getUserInfo"])
+  },      
   methods: {
     logoutUser() {
       this.$store.dispatch("logOut", this.$router);

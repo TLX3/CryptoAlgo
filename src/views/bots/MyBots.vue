@@ -125,6 +125,7 @@ export default {
       this.prebuiltAlgorithms.forEach((algo) => {
         this.algorithmIdToDetails[algo.id] = algo
       })
+      console.log('-------', this.algorithmIdToDetails, this.prebuiltAlgorithms)
 
       // GET algorithms assigned to user
       axios.get(process.env.VUE_APP_API_SERVER + 'assignment?uid=' + this.getUID)

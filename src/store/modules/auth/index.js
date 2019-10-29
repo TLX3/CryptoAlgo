@@ -61,8 +61,7 @@ const actions = {
                 console.log(res)
                 Nprogress.done();
                 setTimeout(() => {
-                    context.commit('signUpUserSuccess', res.data.token);
-                    context.commit('setUID', res.data.uid)
+                    context.commit('signUpUserSuccess');
                 }, 500)
             })
             .catch(error => {
@@ -107,9 +106,8 @@ const mutations = {
     signUpUser(state) {
         Nprogress.start();
     },
-    signUpUserSuccess(state, token) {
-        state.token = localStorage.setItem('token', token);
-        router.push("/dashboard/exchanges");
+    signUpUserSuccess(state) {
+        router.push("/landing");
         Vue.notify({
             group: 'loggedIn',
             type: 'success',

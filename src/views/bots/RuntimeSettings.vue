@@ -179,6 +179,7 @@
 import { mapGetters } from "vuex"
 import axios from 'axios'
 import StreamChart from './StreamChart'
+import io from 'socket.io-client'
 
 export default {
   components: {
@@ -312,30 +313,39 @@ export default {
             // add unique identifier for algorithm and user
             let uniqueIdentifier = this.getUID + '_' + this.formValues.exchange_name + '_' + this.algorithmIdToDetails[this.selectedItem.aid].name + '_' + Math.round((new Date()).getTime() / 1000)
             let json = {
-              'task': this.algorithmIdToDetails[this.selectedItem.aid].name,
-              'mode': this.isBacktesting ? 'backtest' : 'live',
-              'capital_base': Number(this.formValues.capital_base),
-              'exchange_name': this.formValues.exchange_name,
-              'alog_namespace': uniqueIdentifier,
-              'quote_currency': this.formValues.quote_currency,
-              'simulate_orders': this.simulateOrders,
-              'start_date': this.startDate,
-              'end_date': this.endDate,
               'auth_aliases': {
                 'user_id': Number(this.getUID),
                 'exchange_id': Number(exchangeId),
                 'exchange_key': exchangeKey
               },
-              'args': args
+              'alog_args': args
             }
-            console.log(json)
-            // axios.post(process.env.VUE_APP_JOB_SERVER + 'api/v1/trading_tasks', json)
-            // .then((res) => {
-            //   console.log(res)
-            // })
-            // .catch((err) => {
-            //   console.log(err)
-            // })
+            let url = process.env.VUE_APP_JOB_SERVER + 'api/v1/trading_tasks/?'
+            url += `&task=${this.algorithmIdToDetails[this.selectedItem.aid].name}`
+            url += `&mode=${this.isBacktesting ? 'backtest' : 'live'}`
+            url += `&capital_base=${Number(this.formValues.capital_base)}`
+            url += `&exchange_name=${this.formValues.exchange_name}`
+            url += `&alog_namespace=${uniqueIdentifier}`
+            url += `&quote_currency=${this.formValues.quote_currency}`
+            url += `&simulate_orders=${this.simulateOrders}`
+            url += `&start_date=${!this.isBacktesting ? '2016-07-12T23:13:3' : this.startDate}`
+            url += `&end_date=${!this.isBacktesting ? '2016-07-12T23:13:3' : this.endDate}`
+            console.log(url, json)
+            let headers = {'Content-Type': 'application/json'}
+              axios.post(url, json, { headers: headers })
+              .then((res) => {
+                console.log(res)
+                var socket = io.connect("http://35.236.123.212:8080/test");
+                socket.on('connect', function() {
+                  console.log('I HAVE CONNECTED!!!!!!!!!!!');
+                });
+                socket.on('my_response', (data) => {
+                  console.log('RESPONSE:', data);
+                });
+              })
+              .catch((err) => {
+                console.log(err)
+              })
             })
             .catch((err) => {
               

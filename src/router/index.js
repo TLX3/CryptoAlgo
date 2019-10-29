@@ -13,6 +13,7 @@ const LoginOne = () => import('Views/session/LoginOne');
 const LockScreen = () => import('Views/session/LockScreen');
 const ForgotPassword = () => import('Views/session/ForgotPassword');
 const ResetPassword = () => import('Views/session/ResetPassword');
+const ConfirmEmail = () => import('Views/session/ConfirmEmail')
 
 Vue.use(Router)
 
@@ -62,6 +63,10 @@ export default new Router({
 				title: 'message.resetPassword',
 				breadcrumb: 'Session / Reset Password'
 			}
+		},
+		{
+			path: '/confirm-email',
+			component: ConfirmEmail
 		}
 	]
 })
