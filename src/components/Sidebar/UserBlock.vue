@@ -3,8 +3,8 @@
 		<v-list-tile-avatar>
 			<img src="/static/avatars/icon.jpg" alt="avatar" height="40" width="40" class="img-responsive" />
 		</v-list-tile-avatar>
-		<v-list-tile-content class="ml-3">
-			<v-list-tile-title><span>{{getUserInfo}}</span></v-list-tile-title>
+		<v-list-tile-content>
+			<span>{{getUserInfo.email.split('@')[0]}}</span>
 		</v-list-tile-content>
 		<v-menu 
 			bottom
@@ -20,7 +20,7 @@
 			</v-btn>
 			<div class="dropdown-content">
 				<div class="dropdown-top white--text primary">
-					<span class="white--text fs-14 fw-bold d-block">{{getUserInfo}}</span>
+					<span class="white--text fs-14 fw-bold d-block">{{getUserInfo.email}}</span>
 					<span class="d-block fs-12 fw-light">User ID: {{getUID}}</span>
 				</div>
 				<v-list class="dropdown-list">

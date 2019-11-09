@@ -9,16 +9,16 @@ import router from '../../../router';
 const state = {
     token: localStorage.getItem('token'),
     uid: localStorage.getItem('uid'),
-    info: ''
+    info: {}
 }
 
 // getters
 const getters = {
     getUser: state => {
-        return state.token;
+        return state.token
     },
     getUID: state => {
-        return state.uid;
+        return state.uid
     },
     getUserInfo: state => {
         return state.info
@@ -37,10 +37,16 @@ const actions = {
             .then(res => {
                 Nprogress.done();
                 console.log(res)
-                setTimeout(() => {
-                    context.commit('setUID', res.data.uid)
-                    context.commit('loginUserSuccess', res.data.token);
-                }, 500)
+                axios.get(process.env.VUE_APP_API_SERVER + 'status' , { headers: {"Authorization" : `Bearer ${res.data.token}`} })
+                .then(res2 => {
+                    setTimeout(() => {
+                        context.commit('setUserInfo', res2.data)
+                        context.commit('setUID', res.data.uid)
+                        context.commit('loginUserSuccess', res.data.token);
+                    }, 500)
+                }).catch((error) => {
+                  console.log(error)
+                });
             })
             .catch(error => {
                 console.log(error)
@@ -68,6 +74,9 @@ const actions = {
                 console.log(error)
                 context.commit('signUpUserFailure', error);
             })
+    },
+    setUserInfo(context, info) {
+        context.commit('setUserInfo', info);
     }
 }
 
@@ -125,6 +134,9 @@ const mutations = {
     setUID(state, uid) {
         localStorage.setItem('uid', uid)
         state.uid = uid
+    },
+    setUserInfo(state, info) {
+        state.info = info
     }
 }
 

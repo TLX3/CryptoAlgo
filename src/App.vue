@@ -19,6 +19,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import axios from 'axios'
 
 export default {
   data() {
@@ -42,6 +43,21 @@ export default {
       this.selectedLocale.locale === "ar"
     ) {
       this.$store.dispatch("rtlLayout");
+    }
+    if (localStorage.getItem('token')) {
+      const token = localStorage.getItem('token')
+      axios.get(process.env.VUE_APP_API_SERVER + 'status' , { headers: {"Authorization" : `Bearer ${token}`} })
+      .then(res => {
+        console.log(res)
+        //if not valid remove token and refresh page
+        if (res.data.status === "fail") {
+          localStorage.removeItem('token')
+        } else {
+          this.$store.dispatch('setUserInfo', res.data)
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
     }
   },
   computed: {

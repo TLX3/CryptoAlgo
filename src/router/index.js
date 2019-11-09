@@ -58,11 +58,7 @@ export default new Router({
 		},
 		{
 			path: '/reset-password',
-			component: ResetPassword,
-			meta: {
-				title: 'message.resetPassword',
-				breadcrumb: 'Session / Reset Password'
-			}
+			component: ResetPassword
 		},
 		{
 			path: '/confirm-email',
