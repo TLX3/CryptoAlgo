@@ -98,8 +98,14 @@ export default {
           this.$store.dispatch("updateExchangeForUser", payload);
         }
         this.$emit('clearExchange');
+        this.$router.push('/exchanges')
       })
       .catch((err) => {
+        this.$notify({
+          group: 'exchange',
+          type: 'error',
+          text: `${err}`
+        })
         console.log(err)
       })
     }

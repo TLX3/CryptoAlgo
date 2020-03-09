@@ -5,11 +5,41 @@ import Vue from 'vue'
 import Nprogress from 'nprogress';
 import axios from 'axios'
 import router from '../../../router';
+import io from 'socket.io-client'
 
 const state = {
   userExchanges: [],
   userAlgorithms: [],
-  selectedAlgorithms: []
+  selectedAlgorithms: [],
+  chartConfig: {        
+    chart: {},
+    time: {
+        useUTC: false
+    },
+    rangeSelector: {
+        buttons: [{
+        count: 1,
+        type: 'minute',
+        text: '1M'
+        }, {
+        count: 5,
+        type: 'minute',
+        text: '5M'
+        }, {
+        type: 'all',
+        text: 'All'
+        }],
+        inputEnabled: false,
+        selected: 0
+    },
+    title: {
+        text: 'Data Feed'
+    },
+    exporting: {
+        enabled: false
+    },
+    series: []
+  }
 }
 
 // getters
@@ -22,33 +52,84 @@ const getters = {
     },
     getSelectedAlgorithms: state => {
       return state.selectedAlgorithms
+    },
+    getChartConfig: state => {
+      return state.chartConfig
     }
 }
 
 // actions
 const actions = {
+    setChartConfig (context, data) {
+      let config = Object.assign(state.chartConfig)
+      config.chart.events = 
+      {
+        load: function () {
+            // set up the updating of the chart each second
+            let priceSeries = this.series[0];
+            let RSISeries = this.series[1];
+            let socket = io.connect(data.socketAddress);
+            socket.on('connect', function() {
+              console.log('CONNECTED TO SOCKET');
+            });
+            socket.on('simple_loop', (data) => {
+              console.log('RESPONSE:', data);
+              data = JSON.parse(data)
+              let dateTime = new Date(data.datetime).getTime() * 1000
+              let price = data.price
+              let priceChange = data.priceChange
+              let cash = data.cash
+              let RSI = data.RSI
+              console.log('New Point:', [dateTime, price])
+              priceSeries.addPoint([dateTime, price], true, false);
+              RSISeries.addPoint([dateTime, RSI], true, false);
+            });
+            socket.on('finishedBacktest', (sample) => {
+                socket.emit('forceDisconnect');
+            });
+        }
+      }
+      config.series = [
+      {
+          name: 'price',
+          data: (function () {
+            // generate an array of random data
+            let data = [],
+                time = (new Date()).getTime(),
+                i;
+      
+            for (i = 0; i <= 0; i += 1) {
+                data.push([
+                time + i * 1000,
+                0
+                ]);
+            }
+            return data;
+            }())      
+      },
+      {
+          name: 'RSI',
+          data: [],
+          data: (function () {
+          // generate an array of random data
+          let data = [],
+              time = (new Date()).getTime(),
+              i;
+    
+          for (i = 0; i <= 0; i += 1) {
+              data.push([
+              time + i * 1000,
+              0
+              ]);
+          }
+          return data;
+          }())
+    }
+    ]
+      context.commit('setChartConfig', config)
+    },
     setSelectedAlgorithms (context, selected) {
       context.commit('setSelectedAlgorithms', selected);
-    },
-    addAlgorithmForUser (context, payload) {
-      const { id, amount, currency, eid, enabled, uid } = payload;
-      let json = {
-        "aid": Number(id),
-        "amount": Number(amount),
-        "currency": currency,
-        "eid": Number(eid),
-        "enabled": enabled,
-        "uid": Number(uid)
-      }
-      console.log(json)
-      axios.post(process.env.VUE_APP_API_SERVER + 'assignment/', json)
-      .then((res) => {
-          console.log(res)
-          console.log("Algorithm added for user");
-      })
-      .catch((error) => {
-          console.error("Error writing document: ", error);
-      });
     },
     updateExchangeForUser({ commit, state }, payload) {
         const { uid, eid, api_key, api_secret } = payload;
@@ -58,6 +139,7 @@ const actions = {
         .then((res) => {
             console.log("Exchange information updated for user", res);
             commit('setUserExchanges', [eid ,...state.userExchanges]);
+            router.go()              
         })
         .catch((error) => {
             console.error("Error writing document: ", error);
@@ -104,6 +186,9 @@ const mutations = {
     },
     setSelectedAlgorithms (state, selected) {
       state.selectedAlgorithms = selected
+    },
+    setChartConfig(state, config) {
+      state.chartConfig = config
     }
 }
 

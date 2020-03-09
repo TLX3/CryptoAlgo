@@ -148,7 +148,25 @@ import { mapGetters } from "vuex";
         this.getSelectedAlgorithms.forEach((algorithm) => {
           algorithm.uid = this.getUID
           if (!Object.keys(algorithm).includes('enabled')) algorithm.enabled = false
-          this.$store.dispatch('addAlgorithmForUser', algorithm)
+          const { id, amount, currency, eid, enabled, uid } = algorithm
+          let json = {
+            "aid": Number(id),
+            "amount": Number(amount),
+            "currency": currency,
+            "eid": Number(eid),
+            "enabled": enabled,
+            "uid": Number(uid)
+          }
+          axios.post(process.env.VUE_APP_API_SERVER + 'assignment/', json)
+          .then((res) => {
+              console.log(res)
+              console.log("Algorithm added for user")
+              this.$router.go()              
+              location.reload()
+          })
+          .catch((error) => {
+              console.error("Error writing document: ", error);
+          });
         })
       }
     },

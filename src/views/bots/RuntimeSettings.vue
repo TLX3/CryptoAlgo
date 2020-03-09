@@ -12,7 +12,7 @@
         <v-divider color='#fff'/>
         <v-card-text>
           <StreamChart v-if='isBacktesting' @stopBacktesting='isBacktesting = false'/>
-          <v-stepper v-model="e1">
+          <v-stepper v-if='!isBacktesting'  v-model="e1">
             <v-stepper-header>
               <v-stepper-step :complete="e1 > 1" step="1">Common Parameters</v-stepper-step>
               <v-divider></v-divider>
@@ -331,17 +331,19 @@ export default {
             url += `&start_date=${!this.isBacktesting ? '2016-07-12T23:13:3' : this.startDate}`
             url += `&end_date=${!this.isBacktesting ? '2016-07-12T23:13:3' : this.endDate}`
             console.log(url, json)
-            let headers = {'Content-Type': 'application/json'}
+            let headers = {'Content-Type': 'application/json', "accept": "application/json" }
               axios.post(url, json, { headers: headers })
               .then((res) => {
                 console.log(res)
-                var socket = io.connect("http://35.236.123.212:8080/test");
-                socket.on('connect', function() {
-                  console.log('I HAVE CONNECTED!!!!!!!!!!!');
-                });
-                socket.on('my_response', (data) => {
-                  console.log('RESPONSE:', data);
-                });
+                this.isBacktesting = true
+                this.$store.dispatch('setChartConfig', { socketAddress: "http://35.236.123.212:9090/" })
+                // var socket = io.connect("http://35.236.123.212:8080/test");
+                //   socket.on('connect', function() {
+                //     console.log('I HAVE CONNECTED!!!!!!!!!!!');
+                //   });
+                //   socket.on('simple_loop', (data) => {
+                //     console.log('RESPONSE:', data);
+                //   });
               })
               .catch((err) => {
                 console.log(err)
